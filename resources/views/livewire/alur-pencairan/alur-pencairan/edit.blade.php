@@ -396,16 +396,14 @@
                                                         <div class="p-3 bg-light">
                                                             <div class="row">
                                                                 <div class="col-auto mb-3">
-                                                                    @if(Auth::user()->roles[0]->name == 
-                                                                    App\Models\AlurPencairan\ALurPencairan::ROLE_ALIASE
-                                                                    [App\Models\AlurPencairan\AlurPencairan::ROLE_FINANCE])
+                                                                    @can(PermissionHelper::transform(PermissionHelper::ACCESS_ALUR_PENCAIRAN, PermissionHelper::TYPE_CREATE))
                                                                         <button type="button" wire:loading.attr="disabled" class="btn btn-info mt-3" wire:click="addDataSalahTransfer">
                                                                             Tambah Data Salah Transfer
                                                                         </button>
                                                                         <button type="button" wire:loading.attr="disabled" class="btn btn-success mt-3" wire:click="saveDataSalahTransfer">
                                                                             Simpan
                                                                         </button>
-                                                                    @endif
+                                                                    @endCan
                                                                 </div>
                                                                 <table class="table table-sm">
                                                                     <thead>
