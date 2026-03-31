@@ -141,7 +141,6 @@ class Datatable extends Component
                             'status' => $alur_proses->getProgressStatus()
                         ];
                     }
-                    $this->dispatch('consoleLog', $alur_proseses);
 
                     $html = '<td class="text-center">
     <div class="d-flex justify-content-center gap-1">';
