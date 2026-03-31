@@ -459,7 +459,7 @@
                                                     class="form-check-input" type="checkbox" checked disabled>
                                                 </td>
                                                 <td>
-                                                    <p class="{{$alur_proseses[$no - 2]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}"><p class="{{$alur_proseses[$no - 2]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$no - 2]['tanggal_update']}} {{$alur_proseses[$no -2]['creator_name']}}</p></p>
+                                                    <h3 class="text-warning">Klik untuk melihat detail</h3>
                                                 </td>
                                                 <td>
                                                     @if(Auth::user()->roles[0]->name == 
@@ -614,13 +614,13 @@
                                                 <td>Melengkapi Rekening salah</td>
                                                 <td class="d-flex justify-content-center">
                                                     @if ($jumlah_belum_melengkapi_rekening_salah)
-                                                        <p class="text-danger">({{$jumlah_belum_melengkapi_rekening_salah}})</p>
+                                                        <h3 class="text-danger"> ({{$jumlah_belum_melengkapi_rekening_salah}})</h3>
                                                     @else
                                                         <input class="form-check-input" type="checkbox" checked disabled>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <p class="{{$alur_proseses[$no - 2]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$no - 2]['tanggal_update']}} {{$alur_proseses[$no -2]['creator_name']}}</p>
+                                                    <h3 class="text-warning">Klik untuk melihat detail</h3>
                                                 </td>
                                                 <td>
                                                     @if(Auth::user()->roles[0]->name == 
@@ -771,13 +771,13 @@
                                                 <td>Transfer susulan</td>
                                                 <td class="d-flex justify-content-center">
                                                     @if ($jumlah_belum_transfer_susulan)
-                                                       <p class="text-danger"> ({{$jumlah_belum_transfer_susulan}})</p>
+                                                       <h3 class="text-danger"> ({{$jumlah_belum_transfer_susulan}})</h3>
                                                     @else
                                                         <input class="form-check-input" type="checkbox" checked disabled>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <p class="{{$alur_proseses[$no - 2]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$no - 2]['tanggal_update']}} {{$alur_proseses[$no -2]['creator_name']}}</p>
+                                                    <h3 class="text-warning">Klik untuk melihat detail</h3>
                                                 </td>
                                                 <td>
                                                     @if(Auth::user()->roles[0]->name == 
@@ -1241,16 +1241,11 @@
     </script>
     <script>
         function initTooltip() {
-            const tooltipTriggerList =
-                [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-
-            tooltipTriggerList.map(function (el) {
-                return new bootstrap.Tooltip(el);
-            });
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
         }
 
         document.addEventListener('DOMContentLoaded', initTooltip);
-        document.addEventListener('livewire:load', initTooltip);
-        document.addEventListener('livewire:navigated', initTooltip);
 </script>
 @endpush
+    

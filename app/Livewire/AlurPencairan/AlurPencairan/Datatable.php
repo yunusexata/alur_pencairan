@@ -142,13 +142,13 @@ class Datatable extends Component
                         ];
                     }
 
-                    $html = '<div class="d-flex justify-content-center gap-1">';
+                    $html = '<div class="d-flex justify-content-center gap-1 con">';
                     foreach ($alur_proseses as $proses) {
                         $html .= '<span
-                        class="progress-box ' . ($proses['status'] ? 'bg-success' : 'bg-danger') . '"
-                        data-bs-toggle="tooltip"
-                        title="' . $proses['name'] . '"
-                    ></span>';
+                            class="progress-box ' . ($proses['status'] ? 'bg-success' : 'bg-danger') . '"
+                            data-bs-toggle="tooltip"
+                            title="' . $proses['name'] . '"
+                        ></span>';
                     }
 
                     $html .= '</div>';
