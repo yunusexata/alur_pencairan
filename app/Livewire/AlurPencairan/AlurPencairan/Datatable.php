@@ -178,6 +178,9 @@ class Datatable extends Component
                 'key' => 'status',
                 'name' => 'Status',
                 'class' => 'text-center',
+                'render' => function ($item) {
+                    return '<span class="btn ' . ($item["status"] == AlurPencairan::STATUS_DONE ? "btn-success" : "btn-warning") . '">' . $item['status'] . '</span>';
+                }
             ],
         ];
     }
