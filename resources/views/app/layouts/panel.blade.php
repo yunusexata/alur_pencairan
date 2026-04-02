@@ -21,11 +21,25 @@
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind CSS CDN -->
+    {{-- <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="{{ asset('assets/js/tailwind.config.js') }}"></script> --}}
+    @vite([
+    'resources/css/app.css',
+    'resources/css/livewire.css',
+    'resources/js/app.js'
+])
     @livewireStyles
 
     @stack('css')
+
 </head>
 <!--end::Head-->
 
