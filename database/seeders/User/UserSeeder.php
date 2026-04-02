@@ -160,7 +160,7 @@ class UserSeeder extends Seeder
                 'username' => "Novi Prayitno",
                 'email' => "snoopy.exataindonesia2018@gmail.com",
                 'password' => Hash::make("123exata"),
-                'color' => '#3B82F6',
+                'color' => '#f7bb3b',
             ]);
 
             $user->assignRole(AlurPencairan::ROLE_PAK_NOVI);
@@ -214,7 +214,7 @@ class UserSeeder extends Seeder
                 'username' => "Teddy",
                 'email' => "teddy.exata@gmail.com",
                 'password' => Hash::make("123exata"),
-                'color' => '#EC4899',
+                'color' => '#d44e91',
             ]);
 
             $user->assignRole(AlurPencairan::ROLE_CC);
@@ -223,7 +223,7 @@ class UserSeeder extends Seeder
                 'username' => "Irfan",
                 'email' => "arik.exataindonesia2019@gmail.com",
                 'password' => Hash::make("suksesbersamaexata1"),
-                'color' => '#F43F5E',
+                'color' => '#c87482',
             ]);
 
             $user->assignRole(AlurPencairan::ROLE_CC);
@@ -235,7 +235,7 @@ class UserSeeder extends Seeder
                 'username' => "Rina",
                 'email' => "rinaexataindonesia@gmail.com",
                 'password' => Hash::make("123exata"),
-                'color' => '#EF4444',
+                'color' => '#ce45e3',
             ]);
 
             $user->assignRole(AlurPencairan::ROLE_FINANCE);
