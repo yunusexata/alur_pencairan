@@ -31,11 +31,11 @@
     <!-- Tailwind CSS CDN -->
     {{-- <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script src="{{ asset('assets/js/tailwind.config.js') }}"></script> --}}
-    @vite([
+    {{-- @vite([
     'resources/css/app.css',
     'resources/css/livewire.css',
     'resources/js/app.js'
-])
+]) --}}
     @livewireStyles
 
     @stack('css')
