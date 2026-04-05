@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use Database\Seeders\AlurPencairan\AlurPencairanAlurProsesSeeder;
+use Database\Seeders\AlurPencairan\AlurProsesSeeder;
 use Database\Seeders\User\RoleHasPermissionSeeder;
 use Database\Seeders\User\PermissionSeeder;
 use Database\Seeders\User\RoleSeeder;
@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            AlurPencairanAlurProsesSeeder::class,
+            AlurProsesSeeder::class,
             RoleHasPermissionSeeder::class,
         ]);
     }

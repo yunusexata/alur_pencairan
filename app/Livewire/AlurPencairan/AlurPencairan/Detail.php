@@ -4,26 +4,22 @@ namespace App\Livewire\AlurPencairan\AlurPencairan;
 
 use App\Helpers\Alert;
 use App\Models\AlurPencairan\AlurPencairan;
-use App\Models\AlurPencairan\AlurPencairanDetail;
-use App\Repositories\AlurPencairan\AlurPencairanDetailRepository;
 use App\Repositories\AlurPencairan\AlurPencairanRepository;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class Detail extends Component
 {
-    use WithFileUploads;
 
     public $objId;
 
     public $judul;
     public $qty_cair;
-    public $keterangan;
     public $status;
+    public $type = AlurPencairan::TYPE_SPEED_20;
 
     public function mount() {}
 
@@ -52,8 +48,8 @@ class Detail extends Component
                     // Vehicle
                     $validateData = [
                         'judul' => $this->judul,
+                        'type' => $this->type,
                         'qty_cair' => $this->qty_cair,
-                        'keterangan' => $this->keterangan,
                         'status' => $this->status,
                     ];
                     $alur_pencairan_id = Crypt::decrypt($this->objId);
@@ -62,8 +58,8 @@ class Detail extends Component
                     // Vehicle
                     $validateData = [
                         'judul' => $this->judul,
+                        'type' => $this->type,
                         'qty_cair' => $this->qty_cair,
-                        'keterangan' => $this->keterangan,
                         'status' => AlurPencairan::STATUS_PROSES,
                     ];
                     $alur_pencairan = AlurPencairanRepository::create($validateData);

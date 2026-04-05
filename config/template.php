@@ -32,9 +32,27 @@ return [
             'icon' => 'ki-duotone ki-element-11',
         ],
         [
-            'text' => 'Alur Pencairan - Alur Proses',
-            'route'  => 'alur_pencairan_alur_proses.index',
-            'icon' => 'ki-duotone ki-element-11',
+            // 'id' => 'menu_admin'
+            'text' => 'Alur Proses',
+            'icon' => 'ki-duotone ki-shield-tick',
+            'submenu' => [
+
+                [
+                    'text' => 'SPEED 20',
+                    'route'  => 'alur_proses_speed_20.index',
+                    'icon_color' => 'success',
+                ],
+                [
+                    'text' => 'NORMAL',
+                    'route'  => 'alur_proses_normal.index',
+                    'icon_color' => 'success',
+                ],
+                [
+                    'text' => 'PROSES 80',
+                    'route'  => 'alur_proses_proses_80.index',
+                    'icon_color' => 'success',
+                ],
+            ],
         ],
         [
             // 'id' => 'menu_admin'

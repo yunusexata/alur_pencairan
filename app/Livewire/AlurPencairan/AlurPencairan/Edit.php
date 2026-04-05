@@ -10,19 +10,17 @@ use App\Models\AlurPencairan\AlurPencairanStatus;
 use App\Repositories\AlurPencairan\AlurPencairanDetailRepository;
 use App\Repositories\AlurPencairan\AlurPencairanHistoryRepository;
 use App\Repositories\AlurPencairan\AlurPencairanRepository;
-use App\Repositories\AlurPencairan\AlurPencairanStatusRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
     public $alur_pencairan_id;
+    public $plan_transfer;
     public $alur_pencairan = [];
     public $alur_proseses = [];
     public $data_salah_transfers = [];
@@ -45,32 +43,24 @@ class Edit extends Component
             'judul' => $alur_pencairan['judul'],
             'qty_cair' => $alur_pencairan['qty_cair'],
             'status' => $alur_pencairan['status'],
+            'type' => $alur_pencairan['type'],
             'alur_pencairan_id' => $alur_pencairan_id,
-            'keterangan' => "Total : " . $alur_pencairan['qty_cair'] . ", Belum Transfer : " . $alur_pencairan->AlurPencairanDetailOnProses->count() . ", Valid :" . $alur_pencairan['qty_cair'] - $alur_pencairan->AlurPencairanDetailOnProses->count()
+            'keterangan' => "Total : " . $alur_pencairan['qty_cair'] . ", Belum Transfer : " . $alur_pencairan->alurPencairanDetailOnProses->count() . ", Valid :" . $alur_pencairan['qty_cair'] - $alur_pencairan->alurPencairanDetailOnProses->count()
         ];
-        $alur_status = AlurPencairanStatusRepository::getAlurPencairan($alur_pencairan_id)->toArray();
+        $this->plan_transfer = $alur_pencairan['plan_transfer'];
         $this->alur_proseses = [];
-        foreach ($alur_status as $detail) {
+        foreach ($alur_pencairan->alurPencairanStatuses as $detail) {
 
-            $this->alur_proseses[] = [
-                'id' => $detail['id'],
-                'role_id' => $detail['role_id'],
-                'creator_name' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['status'] . " oleh : " . $detail['creator_name'],
-                'alur_pencairan_alur_proses_id' => $detail['alur_pencairan_alur_proses_id'],
-                'role_name' => $detail['role_name'],
-                'name' => $detail['name'],
-                'tanggal_update' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['tanggal_update'],
-                'nomor_urut' => $detail['nomor_urut'],
-                'is_check' => $detail['status'] == AlurPencairanStatus::STATUS_DONE ? true : false,
-                'status' => $detail['status'],
-                'alur_pencairan_id' => $alur_pencairan_id,
-                'keterangan' => $detail['keterangan'],
-                // 'keterangan' => "HALO",
-                'keterangan_old' => $detail['keterangan'],
-                'is_multi' => $detail['is_multi'],
-                'user_id' => $detail['user_id'],
-                'user_name' => $detail['user_name'],
-            ];
+            $this->alur_proseses[] = array_merge(
+                [
+                    'is_check' => $detail['status'] == AlurPencairanStatus::STATUS_DONE ? true : false,
+                    'creator_name' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['status'] . " oleh : " . $detail->user->name,
+                    'tanggal_update' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['tanggal_update'],
+                    'keterangan_old' => $detail['keterangan'],
+                    'user_name' => $detail->user->name,
+                ],
+                $detail->toArray()
+            );
         }
         $this->getJumlahBelumMelengkapiRekeningSalah();
         $this->getJumlahBelumTransferSusulan();
@@ -297,19 +287,19 @@ class Edit extends Component
     {
         try {
             DB::transaction(function () {
+
+                if (Auth::user()->roles[0]->name == AlurPencairan::ROLE_ALIASE[AlurPencairan::ROLE_ACC_EXATA]) {
+                    $validateData = [
+                        'plan_transfer' => $this->plan_transfer,
+                    ];
+                    AlurPencairanRepository::update(Crypt::decrypt($this->alur_pencairan_id), $validateData);
+                }
+
                 foreach ($this->alur_proseses as $index => $alur_proses) {
                     if ($alur_proses['keterangan'] != $alur_proses['keterangan_old']) {
                         $validatedData = [
-
-                            'alur_pencairan_id' => $alur_proses['alur_pencairan_id'],
-                            'alur_pencairan_alur_proses_id' => $alur_proses['alur_pencairan_alur_proses_id'],
-                            'role_id' => Auth::user()->roles[0]->id,
-                            'nama_karyawan' => Auth::user()->name,
                             'keterangan' => $alur_proses['keterangan'],
                             'status' => $alur_proses['status'],
-                            'is_multi' => $alur_proses['is_multi'],
-                            'user_id' => $alur_proses['user_id'],
-                            'user_name' => $alur_proses['user_name'],
                         ];
                         AlurPencairanHistoryRepository::create($validatedData);
                         $this->editAlurPencairan(Crypt::encrypt($alur_proses['alur_pencairan_id']));
@@ -339,7 +329,11 @@ class Edit extends Component
     {
         try {
             DB::transaction(function () use ($alur_pencairan_id) {
-                AlurPencairanRepository::update($alur_pencairan_id, ['status' => AlurPencairan::STATUS_DONE]);
+                AlurPencairanRepository::update($alur_pencairan_id, [
+                    'status' => AlurPencairan::STATUS_DONE,
+                    'status_updated_by' => Auth::user()->id,
+                    'status_updated_at' => now(),
+                ]);
                 $this->editAlurPencairan(Crypt::encrypt($alur_pencairan_id));
             });
 
@@ -373,14 +367,13 @@ class Edit extends Component
 
                     $validatedData = [
                         'alur_pencairan_id' => $alur_proses['alur_pencairan_id'],
-                        'is_multi' => $alur_proses['is_multi'],
+                        'alur_proses_id' => $alur_proses['alur_proses_id'],
+                        'alur_proses_detail_id' => $alur_proses['alur_proses_detail_id'],
                         'user_id' => $alur_proses['user_id'],
-                        'user_name' => $alur_proses['user_name'],
-                        'alur_pencairan_alur_proses_id' => $alur_proses['alur_pencairan_alur_proses_id'],
-                        'role_id' => Auth::user()->roles[0]->id,
-                        'nama_karyawan' => Auth::user()->name,
                         'status' => $status,
-                        'keterangan' => $alur_proses['keterangan'],
+                        'status_updated_by' => Auth::user()->id,
+                        'status_updated_name' => Auth::user()->name,
+                        'status_updated_at' => now(),
                     ];
 
 

@@ -45,7 +45,7 @@
 
 <!--begin::Body-->
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
+<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true"
     data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
     data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
     data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
@@ -75,7 +75,7 @@
             <!--begin::Header-->
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false" style="background-color: #337A81">
                 <!--begin::Header container-->
                 <div class="app-container container-fluid d-flex align-items-stretch justify-content-between"
                     id="kt_app_header_container">
@@ -117,7 +117,7 @@
                         <div class="app-navbar flex-shrink-0">
                             <div class="app-navbar-item ms-1 ms-md-4">
                                 <div class='menu-item'>
-                                    <livewire:core.connection-state />
+                                    
                                 </div>
                             </div>
 
@@ -225,7 +225,7 @@
                 <!--end::Sidebar-->
 
                 <!--begin::Main-->
-                <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+                <div class="app-main flex-column flex-row-fluid" id="kt_app_main" style="background-color: #d5e7e9">
                     <!--begin::Content wrapper-->
                     <div class="d-flex flex-column flex-column-fluid">
                         <!--begin::Toolbar-->

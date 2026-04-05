@@ -31,6 +31,18 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="col-md-auto">
+                <label>Jenis Pencairan</label>
+                <select class="form-select mb-2 @error('type') is-invalid @enderror" wire:model="type">
+                    @foreach (\App\Models\AlurPencairan\AlurPencairan::TYPE_CHOICE as $type)
+                        <option value="{{ $type }}" class="text-center">{{ $type }}</option>
+                    @endforeach
+                </select>
+
+                @error('type')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
         <button type="submit" wire:loading.attr="disabled" class="btn btn-primary mt-3">
             Save

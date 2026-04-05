@@ -12,17 +12,15 @@ class AlurPencairanHistory extends Model
     use HasFactory, SoftDeletes, HasTrackHistory;
 
     protected $fillable = [
-
         'alur_pencairan_id',
-        'alur_pencairan_alur_proses_id',
-        'role_id',
-        'nama_karyawan',
+        'alur_proses_id',
+        'alur_proses_detail_id',
+        'user_id',
         'status',
         'keterangan',
-
-        'is_multi',
-        'user_id',
-        'user_name',
+        "status_updated_by",
+        "status_updated_at",
+        "status_updated_name",
     ];
 
     protected $guarded = ['id'];
@@ -51,14 +49,17 @@ class AlurPencairanHistory extends Model
             AlurPencairanStatus::updateOrCreate(
                 [
                     'alur_pencairan_id' => $model->alur_pencairan_id,
-                    'alur_pencairan_alur_proses_id' => $model->alur_pencairan_alur_proses_id,
-                    'is_multi' => $model->is_multi,
-                    'user_id' => $model->user_id,
-                    'user_name' => $model->user_name,
+                    'alur_proses_id' => $model->alur_proses_id,
+                    'alur_proses_detail_id' => $model->alur_proses_detail_id,
                 ],
                 [
+                    'user_id' => $model->user_id,
+                    'alur_pencairan_id' => $model->alur_pencairan_id,
                     'status' => $model->status,
                     'keterangan' => $model->keterangan,
+                    'status_updated_by' => $model->status_updated_by,
+                    'status_updated_at' => $model->status_updated_at,
+                    'status_updated_name' => $model->status_updated_name,
                 ]
             );
         });

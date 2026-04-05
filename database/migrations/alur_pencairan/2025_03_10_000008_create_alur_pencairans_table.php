@@ -33,13 +33,17 @@ return new class extends Migration
         if ($is_history) {
             $table->bigInteger('obj_id')->unsigned();
         } else {
+
+            $table->index('plan_transfer', 'alur_pencairans_plan_transfer_idx');
+            $table->index('judul', 'alur_pencairans_judul_idx');
+            $table->index('status', 'alur_pencairans_status_idx');
         }
 
         $table->date('plan_transfer')->nullable();
-        $table->text('judul');
+        $table->string('judul');
         $table->integer('qty_cair');
-        $table->text('keterangan')->nullable();
-        $table->text('status')->nullable();
+        $table->string('type')->nullable(); // SPEED 20, NORMAL, PROSES 80
+        $table->string('status')->nullable(); // PENDING, DONE
 
         $table->bigInteger("created_by")->unsigned()->nullable();
         $table->bigInteger("updated_by")->unsigned()->nullable();

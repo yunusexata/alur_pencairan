@@ -21,14 +21,17 @@
                 </button>
             </div>
             @foreach ($alur_proseses as $index => $proses)
-                <div class="row">
+                <div class="row" wire:key="alur-proses-{{$proses['alur_proses_detail_id']}}">
                     <div class="row col-md-10">
                         <div class="col-auto">
                             @if (!$index)
                                 <label class="mb-3">Nomor Urut</label>
                             @endif
-                            <input placeholder="Nomor Urut" type="number" wire:model="alur_proseses.{{$index}}.nomor_urut" class="form-control mb-2">
-    
+                             <input
+                            type="number"
+                            wire:model.lazy="alur_proseses.{{ $index }}.nomor_urut"
+                            class="form-control"
+                        >
                             @error('alur_proseses.{{$index}}.nomor_urut')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -37,9 +40,9 @@
                             @if (!$index)
                                 <label class="mb-3">Jabatan</label>
                             @endif
-                            <select class="form-select mb-2 @error('role') is-invalid @enderror" wire:model="alur_proseses.{{$index}}.role_id">
+                            <select class="form-select mb-2 @error('role') is-invalid @enderror" wire:model="alur_proseses.{{$index}}.role_name">
                                 @foreach ($roles as $role)
-                                    <option value="{{ $role['id'] }}" class="text-center">{{ $role['name'] }}</option>
+                                    <option value="{{ $role }}" class="text-center">{{ $role }}</option>
                                 @endforeach
                             </select>
 

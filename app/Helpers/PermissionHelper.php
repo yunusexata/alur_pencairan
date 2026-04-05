@@ -32,7 +32,9 @@ class PermissionHelper
     const ACCESS_ROLE = "role";
 
     const ACCESS_ALUR_PENCAIRAN = "alur_pencairan";
-    const ACCESS_ALUR_PENCAIRAN_ALUR_PROSES = "alur_pencairan_alur_proses";
+    const ACCESS_ALUR_PROSES_SPEED_20 = "alur_proses_speed_20";
+    const ACCESS_ALUR_PROSES_NORMAL = "alur_proses_normal";
+    const ACCESS_ALUR_PROSES_PROSES_80 = "alur_proses_proses_80";
     const ACCESS_ALL = [
         self::ACCESS_DASHBOARD,
         self::ACCESS_USER,
@@ -40,7 +42,9 @@ class PermissionHelper
         self::ACCESS_ROLE,
 
         self::ACCESS_ALUR_PENCAIRAN,
-        self::ACCESS_ALUR_PENCAIRAN_ALUR_PROSES,
+        self::ACCESS_ALUR_PROSES_SPEED_20,
+        self::ACCESS_ALUR_PROSES_NORMAL,
+        self::ACCESS_ALUR_PROSES_PROSES_80,
 
     ];
 
@@ -51,7 +55,9 @@ class PermissionHelper
         PermissionHelper::ACCESS_PERMISSION => PermissionHelper::TYPE_ALL,
 
         PermissionHelper::ACCESS_ALUR_PENCAIRAN => PermissionHelper::TYPE_ALL,
-        PermissionHelper::ACCESS_ALUR_PENCAIRAN_ALUR_PROSES => PermissionHelper::TYPE_ALL,
+        PermissionHelper::ACCESS_ALUR_PROSES_SPEED_20 => PermissionHelper::TYPE_ALL,
+        PermissionHelper::ACCESS_ALUR_PROSES_NORMAL => PermissionHelper::TYPE_ALL,
+        PermissionHelper::ACCESS_ALUR_PROSES_PROSES_80 => PermissionHelper::TYPE_ALL,
     ];
 
     const TRANSLATE_ACCESS = [
@@ -61,7 +67,9 @@ class PermissionHelper
         self::ACCESS_ROLE => "Jabatan",
 
         self::ACCESS_ALUR_PENCAIRAN => "Alur Pencairan",
-        self::ACCESS_ALUR_PENCAIRAN_ALUR_PROSES => "Alur Pencairan - Alur Proses",
+        self::ACCESS_ALUR_PROSES_SPEED_20 => "Alur Proses - Speed 20",
+        self::ACCESS_ALUR_PROSES_NORMAL => "Alur Proses - Normal",
+        self::ACCESS_ALUR_PROSES_PROSES_80 => "Alur Proses - Proses 80",
     ];
 
     /*

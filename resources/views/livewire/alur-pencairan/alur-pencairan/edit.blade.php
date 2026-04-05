@@ -4,77 +4,142 @@
         wire:ignore.self>
         <div class="modal-dialog modal-fullscreen" style="overflow: scroll">
             <div class="modal-content" style="overflow: scroll">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Alur Pencairan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header" style="background-color: #327a81;
+   color: white;
+   font-size: 1.2em;
+   padding: 1rem;
+   text-align: center;
+   text-transform: uppercase;">
+                    <div class="row d-flex justify-content-center w-100">
+                        <h1 class="modal-title text-white" id="editModalLabel">Alur Pencairan</h1>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form wire:submit.prevent="saveChanges">
-                    <div class="modal-body import_modal">
-
-                        @if ($alur_pencairan)
+                    <div class="modal-body import_modal" style="background-color: lighten(#398B93, 40%);">
+                        <div class="table-users">
+                            <div class="header">
+                                @if ($alur_pencairan)
                             
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label>Judul</label>
-                                    <p class="form-control">{{$alur_pencairan['judul']}}</p>
-                                </div>
-                                <div class="col-md-2 mb-3">
-                                    <label>Qty cair</label>
-                                    <p class="form-control">{{$alur_pencairan['qty_cair']}}</p>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label>Keterangan</label>
-                                    <p class="form-control">{{$alur_pencairan['keterangan']}}</p>
-                                </div>
-                                <div class="col-md-3 mb-3 row d-flex justify-content-start">
-                                    <div class="col-auto">
-                                        <label>Status</label><br>
-                                        @if(Auth::user()->roles[0]->name == 
-                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                            [App\Models\AlurPencairan\AlurPencairan::ROLE_ACC_EXATA])
-                                            <button type="button" class="btn {{$alur_pencairan['status']== \App\Models\AlurPencairan\AlurPencairan::STATUS_DONE ? 'btn-success' : 'btn-warning'}}" wire:click="updateStatus('{{$alur_pencairan['alur_pencairan_id']}}')">{{$alur_pencairan['status']}}</button>
-                                        @else
-                                            <button type="button" class="btn {{$alur_pencairan['status']== \App\Models\AlurPencairan\AlurPencairan::STATUS_DONE ? 'btn-success' : 'btn-warning'}}">{{$alur_pencairan['status']}}</button>
-                                        @endif
+                                    <div class="row">
+                                        <div class="col-auto mb-3">
+                                            <label>Judul</label>
+                                            <p class="form-control">{{$alur_pencairan['judul']}}</p>
+                                        </div>
+                                        <div class="col-md-2 mb-3">
+                                            <label>Qty cair</label>
+                                            <p class="form-control">{{$alur_pencairan['qty_cair']}}</p>
+                                        </div>
+                                        <div class="col-md-2 mb-3">
+                                            <label>Jenis Pencairan</label>
+                                            <p class="form-control">{{$alur_pencairan['type']}}</p>
+                                        </div>
+                                        <div class="col-auto mb-3">
+                                            <label>Keterangan</label>
+                                            <p class="form-control">{{$alur_pencairan['keterangan']}}</p>
+                                        </div>
+                                        <div class="col-md-3 mb-3 row d-flex justify-content-start">
+                                            <div class="col-auto">
+                                                <label>Status</label><br>
+                                                @if(Auth::user()->roles[0]->name == 
+                                                    App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                    [App\Models\AlurPencairan\AlurPencairan::ROLE_ACC_EXATA])
+                                                    <button type="button" class="btn {{$alur_pencairan['status']== \App\Models\AlurPencairan\AlurPencairan::STATUS_DONE ? 'btn-success' : 'btn-warning'}}" wire:click="updateStatus('{{$alur_pencairan['alur_pencairan_id']}}')">{{$alur_pencairan['status']}}</button>
+                                                @else
+                                                    <button type="button" class="btn {{$alur_pencairan['status']== \App\Models\AlurPencairan\AlurPencairan::STATUS_DONE ? 'btn-success' : 'btn-warning'}}">{{$alur_pencairan['status']}}</button>
+                                                @endif
+                                            </div>
+                                            <div class="col-auto">
+                                                <label>Aksi</label><br>
+                                                <button type="submit" class="btn btn-primary"> Simpan  </button>
+                                            </div>
+                                        
+                                        </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <label>Aksi</label><br>
-                                        <button type="submit" class="btn btn-primary"> Simpan  </button>
-                                    </div>
-                                
-                                </div>
+                                @endif
                             </div>
-                        @endif
-
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover text-nowrap w-100 h-100">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" style="width:3%;">No</th>
-                                            <th class="text-center" style="width:6%;">PIC</th>
-                                            <th style="width:30%;">Alur Proses</th>
-                                            <th class="text-center" style="width:4%;">Aksi</th>
-                                            <th class="text-center">Tanggal</th>
+                                            <th class="fw-bold text-center" style="width:3%;">No</th>
+                                            <th class="fw-bold text-center" style="width:6%;">PIC</th>
+                                            <th class="fw-bold " style="width:25%;">Alur Proses</th>
+                                            <th class="fw-bold text-center" style="width:4%;">Aksi</th>
+                                            <th class="fw-bold text-center" style="width:20%;">Tanggal</th>
                                             <th>Keterangan</th>
                                         </tr>
                                     </thead>
                                     @if ($alur_proseses)
                                         <tbody>
+                                            {{-- {{dd($alur_proseses)}} --}}
                                             @foreach ($alur_proseses as $index_alur =>  $alur)
-                                                @switch($alur['alur_pencairan_alur_proses_id'])
-                                                    @case(16)
+                                                @switch($alur['alur_proses_key'])
+                                                    @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_PLAN_TRANSFER)
+                                                        <tr wire:key="alur-proses-{{$index_alur}}">    
+                                                            <td>{{$alur['nomor_urut']}}</td>
+                                                            <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                            <td>
+                                                                <div class="row d-flex justify-content-center align-items-center">
+                                                                    <div class="col-auto">   
+                                                                        Plan Transfer
+                                                                    </div>
+                                                                    <div class="col-auto bg-success text-white rounded p-1">
+                                                                        @if(
+                                                                            Auth::user()->roles[0]->name == 
+                                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                            [$alur['role_name']] 
+                                                                            ) 
+                                                                                <input class="form-control" type="date" wire:model.live="plan_transfer">
+                                                                        @else
+                                                                            {{$plan_transfer}}
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="d-flex justify-content-center">
+                                                                @if(
+                                                                Auth::user()->roles[0]->name == 
+                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                [$alur['role_name']] 
+                                                                && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                                ) 
+                                                                    <input 
+                                                                    class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
+                                                                @else 
+                                                                    <input 
+                                                                    class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$index_alur]['tanggal_update']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
+                                                            </td>
+                                                            <td>
+                                                                @if(Auth::user()->roles[0]->name == 
+                                                                    App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                    [$alur['role_name']]
+                                                                    &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                                    )
+                                                                    <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                                @else
+                                                                    <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                                @endIf
+                                                            </td>
+                                                        </tr>
+                                                        @break
+                                                    @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_INFO_REK_SALAH)
                                                         
                                                         <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
                                                             data-bs-target="#data-salah-transfer" wire:click="getDataSalahTransfer">
-                                                            <td>{{$alur['alur_pencairan_alur_proses_id']}}</td>
+                                                            <td>{{$alur['nomor_urut']}}</td>
                                                             <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                             <td>{{$alur['name']}}</td>
                                                             <td class="d-flex justify-content-center">
                                                                 <input 
-                                                                class="form-check-input" type="checkbox" checked disabled>
+                                                                class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
                                                             </td>
                                                             <td>
-                                                                <h3 class="text-warning">Klik untuk melihat detail</h3>
+                                                                <h3 class="text-danger">Klik untuk melihat detail</h3>
                                                             </td>
                                                             <td>
                                                                 @if(Auth::user()->roles[0]->name == 
@@ -89,7 +154,7 @@
                                                         {{-- COLLAPSE DATA SALAH TRANSFER --}}
                                                         <tr wire:key="alur-detail-{{$index_alur}}">
                                                             <td colspan="100" class="p-0 border-0">
-
+    
                                                                 <div
                                                                     id="data-salah-transfer"
                                                                     class="collapse auto-close-collapse"
@@ -242,26 +307,26 @@
                                                                     </div>
                                                                     
                                                                 </div>
-
+    
                                                             </td>
                                                         </tr>
                                                         @break
-                                                    @case(17)
+                                                    @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_MELENGKAPI_REK_SALAH)
                                                         
                                                         <tr wire:key="alur-proses-{{$index_alur}}"  data-bs-toggle="collapse"
                                                             data-bs-target="#melengkapi-rekening-salah" wire:click="getDataSalahTransfer">
-                                                            <td>{{$alur['alur_pencairan_alur_proses_id']}}</td>
+                                                            <td>{{$alur['nomor_urut']}}</td>
                                                             <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                             <td>{{$alur['name']}}</td>
                                                             <td class="d-flex justify-content-center">
                                                                 @if ($jumlah_belum_melengkapi_rekening_salah)
                                                                     <h3 class="text-danger"> ({{$jumlah_belum_melengkapi_rekening_salah}})</h3>
                                                                 @else
-                                                                    <input class="form-check-input" type="checkbox" checked disabled>
+                                                                    <input class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
                                                                 @endif
                                                             </td>
                                                             <td>
-                                                                <h3 class="text-warning">Klik untuk melihat detail</h3>
+                                                                <h3 class="text-danger">Klik untuk melihat detail</h3>
                                                             </td>
                                                             <td>
                                                                 @if(Auth::user()->roles[0]->name == 
@@ -276,7 +341,7 @@
                                                         {{-- COLLAPSE MELENGKAPI REKENING SALAH --}}
                                                         <tr wire:key="alur-detail-{{$index_alur}}">
                                                             <td colspan="100" class="p-0 border-0">
-
+    
                                                                 <div
                                                                     id="melengkapi-rekening-salah"
                                                                     class="collapse auto-close-collapse"
@@ -293,7 +358,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                             @endif
-
+    
                                                                             <table class="table table-sm">
                                                                                 <thead>
                                                                                     <tr>
@@ -318,7 +383,7 @@
                                                                                                     {{ $loop->iteration }}
                                                                                                 </p>
                                                                                             </td>
-
+    
                                                                                             <td>
                                                                                                 <div class="input-group">
                                                                                                     <input placeholder="Rekening Terbaru" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.rekening_terbaru" class="form-control {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_terbaru'] ? '' : 'is-invalid' }}">
@@ -330,13 +395,13 @@
                                                                                                 </div>
                                                                                                 
                                                                                                 {!! $data_salah_transfers[$index_data_salah_transfer]['id'] ?  '<div class="form-text">Diupdate oleh: ' . $data_salah_transfers[$index_data_salah_transfer]['updator_rekening_terbaru_name'] . '</div>' : ''!!}
-
+    
                                                                                                 @error('data_salah_transfers.{{$index_data_salah_transfer}}.rekening_terbaru')
                                                                                                     <div class="text-danger">{{ $message }}</div>
                                                                                                 @enderror
                                                                                             </td>
                                                                                             <td>
-
+    
                                                                                                 <div class="input-group">
                                                                                                     <p class="form-control">
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_lama'] }}
@@ -388,7 +453,7 @@
                                                                                                     {{ $loop->iteration }}
                                                                                                 </p>
                                                                                             </td>
-
+    
                                                                                             <td>
                                                                                                     
                                                                                                 <div class="input-group">
@@ -402,9 +467,9 @@
                                                                                                 <div class="form-text">Diupdate oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['updator_rekening_terbaru_name'] }}</div>
                                                                                                 
                                                                                             </td>
-
+    
                                                                                             <td>
-
+    
                                                                                                 <div class="input-group">
                                                                                                     <p class="form-control">
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_lama'] }}
@@ -443,26 +508,26 @@
                                                                     </div>
                                                                     
                                                                 </div>
-
+    
                                                             </td>
                                                         </tr>
                                                         @break
-                                                    @case(18)
-
+                                                    @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_TRANSFER_SUSULAN)
+    
                                                         <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
                                                             data-bs-target="#transfer-susulan" wire:click="getDataSalahTransfer">
-                                                            <td>{{$alur['alur_pencairan_alur_proses_id']}}</td>
+                                                            <td>{{$alur['nomor_urut']}}</td>
                                                             <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                             <td>{{$alur['name']}}</td>
                                                             <td class="d-flex justify-content-center">
                                                                 @if ($jumlah_belum_transfer_susulan)
                                                                     <h3 class="text-danger"> ({{$jumlah_belum_transfer_susulan}})</h3>
                                                                 @else
-                                                                    <input class="form-check-input" type="checkbox" checked disabled>
+                                                                    <input class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
                                                                 @endif
                                                             </td>
                                                             <td>
-                                                                <h3 class="text-warning">Klik untuk melihat detail</h3>
+                                                                <h3 class="text-danger">Klik untuk melihat detail</h3>
                                                             </td>
                                                             <td>
                                                                 @if(Auth::user()->roles[0]->name == 
@@ -477,7 +542,7 @@
                                                         {{-- COLLAPSE TRANSFER SUSULAN --}}
                                                         <tr wire:key="alur-detail-{{$index_alur}}">
                                                             <td colspan="100" class="p-0 border-0">
-
+    
                                                                 <div
                                                                     id="transfer-susulan"
                                                                     class="collapse auto-close-collapse"
@@ -518,7 +583,7 @@
                                                                                                     {{ $loop->iteration }}
                                                                                                 </p>
                                                                                             </td>
-
+    
                                                                                             <td>
                                                                                                 <input placeholder="Tgl Transfer" type="date" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer" class="form-control {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ? '' : 'is-invalid' }}">
                                                                                                 {!! $data_salah_transfers[$index_data_salah_transfer]['id'] ?  '<div class="form-text">Diupdate oleh: ' . $data_salah_transfers[$index_data_salah_transfer]['updator_tanggal_transfer_name'] . '</div>' : ''!!}
@@ -539,7 +604,7 @@
                                                                                             
                                                                                             </td>
                                                                                             <td>
-
+    
                                                                                                 <div class="input-group">
                                                                                                     <p class="form-control">
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_lama'] }}
@@ -579,7 +644,7 @@
                                                                                                     {{ $loop->iteration }}
                                                                                                 </p>
                                                                                             </td>
-
+    
                                                                                             <td>
                                                                                                 <p class="form-control">
                                                                                                     {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ?? '-'}}
@@ -597,7 +662,7 @@
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td>
-
+    
                                                                                                 <div class="input-group">
                                                                                                     <p class="form-control">
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_lama'] }}
@@ -636,15 +701,15 @@
                                                                     </div>
                                                                     
                                                                 </div>
-
+    
                                                             </td>
                                                         </tr>
                                                         @break
                                                     @default
-
+    
                                                     <tr wire:key="alur-proses-{{$index_alur}}">
                                                         {{-- <td>{{$loop->iteration}}</td> --}}
-                                                        <td>{{$alur['alur_pencairan_alur_proses_id']}}</td>
+                                                        <td>{{$alur['nomor_urut']}}</td>
                                                         <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                         <td>{{$alur['name']}}</td>
                                                         <td class="d-flex justify-content-center">
@@ -658,11 +723,11 @@
                                                                 class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
                                                             @else 
                                                                 <input 
-                                                                class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled>
+                                                                class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$index_alur]['tanggal_update']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
+                                                            <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$index_alur]['status_updated_at']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
                                                         </td>
                                                         <td>
                                                             @if(Auth::user()->roles[0]->name == 
@@ -676,20 +741,20 @@
                                                             @endIf
                                                         </td>
                                                     </tr>
-
+    
                                                         
                                                 @endswitch
-
+    
                                             @endforeach
                                         </tbody>
                                     @endif
                                 </table>
                             </div>
-                        
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <div class="modal-footer d-flex justify-content-center" style="background-color: #327a81;"">
                         <button type="submit" class="btn btn-primary"> Simpan  </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </form>
             </div>
@@ -699,6 +764,165 @@
 
 
 @push('css')
+    <style>
+        .modal-body {
+        background-color: #acdce0;
+        }
+        .modal-body * {
+        box-sizing: border-box;
+        }
+
+        .header {
+        background-color: #327a81;
+        color: white;
+        font-size: 1.2em;
+        padding: 1rem;
+        text-align: center;
+        text-transform: uppercase;
+        }
+
+        .table-users {
+        border: 1px solid #327a81;
+        border-radius: 10px;
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+        max-width: calc(100% - 1em);
+        margin: 1em auto;
+        overflow: hidden;
+        }
+
+        table {
+        width: 100%;
+        }
+        table td,
+        table th {
+        color: #2b686e;
+        padding: 10px;
+        }
+        table td {
+        text-align: center;
+        vertical-align: middle;
+        }
+        table td:last-child {
+        font-size: 0.95em;
+        line-height: 1.4;
+        text-align: left;
+        }
+        table th {
+        background-color: #daeff1;
+        font-weight: 300;
+        }
+        table tr:nth-child(2n) {
+        background-color: white;
+        }
+        table tr:nth-child(2n+1) {
+        background-color: #edf7f8;
+        }
+
+        @media screen and (max-width: 700px) {
+        table,
+        tr,
+        td {
+            display: block;
+        }
+
+        td:first-child {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+        }
+        td:not(:first-child) {
+            clear: both;
+            margin-left: 100px;
+            padding: 4px 20px 4px 90px;
+            position: relative;
+            text-align: left;
+        }
+        td:not(:first-child):before {
+            color: #acdce0;
+            content: "";
+            display: block;
+            left: 0;
+            position: absolute;
+        }
+        td:nth-child(2):before {
+            content: "Name:";
+        }
+        td:nth-child(3):before {
+            content: "Email:";
+        }
+        td:nth-child(4):before {
+            content: "Phone:";
+        }
+        td:nth-child(5):before {
+            content: "Comments:";
+        }
+
+        tr {
+            padding: 10px 0;
+            position: relative;
+        }
+        tr:first-child {
+            display: none;
+        }
+        }
+        @media screen and (max-width: 500px) {
+        .header {
+            background-color: transparent;
+            color: white;
+            font-size: 2em;
+            font-weight: 700;
+            padding: 0;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            border: 3px solid;
+            border-color: #daeff1;
+            height: 100px;
+            margin: 0.5rem 0;
+            width: 100px;
+        }
+
+        td:first-child {
+            background-color: #c8e7ea;
+            border-bottom: 1px solid #acdce0;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            top: 0;
+            transform: translateY(0);
+            width: 100%;
+        }
+        td:not(:first-child) {
+            margin: 0;
+            padding: 5px 1em;
+            width: 100%;
+        }
+        td:not(:first-child):before {
+            font-size: 0.8em;
+            padding-top: 0.3em;
+            position: relative;
+        }
+        td:last-child {
+            padding-bottom: 1rem !important;
+        }
+
+        tr {
+            background-color: white !important;
+            border: 1px solid #6cbec6;
+            border-radius: 10px;
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+            margin: 0.5rem 0;
+            padding: 0;
+        }
+
+        .table-users {
+            border: none;
+            box-shadow: none;
+            overflow: visible;
+        }
+        }
+    </style>
     <style>
 
         input[type=checkbox] {

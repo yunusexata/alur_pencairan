@@ -33,6 +33,11 @@ return new class extends Migration
         if ($is_history) {
             $table->bigInteger('obj_id')->unsigned();
         } else {
+
+            $table->index('alur_pencairan_id', 'alur_pencairan_details_alur_pencairan_id_idx');
+            $table->index('rekening_lama', 'alur_pencairan_details_rekening_lama_idx');
+            $table->index('rekening_terbaru', 'alur_pencairan_details_rekening_terbaru_idx');
+            $table->index('tanggal_transfer', 'alur_pencairan_details_tanggal_transfer_idx');
         }
 
         $table->bigInteger('alur_pencairan_id');

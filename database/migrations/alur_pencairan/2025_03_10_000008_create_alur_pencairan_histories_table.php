@@ -33,18 +33,20 @@ return new class extends Migration
         if ($is_history) {
             $table->bigInteger('obj_id')->unsigned();
         } else {
+            $table->index('alur_pencairan_id', 'alur_pencairan_histories_alur_pencairan_id_idx');
+            $table->index('alur_proses_id', 'alur_pencairan_histories_alur_proses_id_idx');
+            $table->index('alur_proses_detail_id', 'alur_pencairan_histories_alur_proses_detail_id_idx');
         }
 
-        $table->bigInteger('alur_pencairan_id');
-        $table->bigInteger('alur_pencairan_alur_proses_id');
-        $table->bigInteger('role_id')->nullable();
-        $table->string('nama_karyawan')->nullable();
+        $table->bigInteger('alur_pencairan_id')->unsigned();
+        $table->bigInteger('alur_proses_id')->unsigned();
+        $table->bigInteger('alur_proses_detail_id')->unsigned();
+        $table->bigInteger('user_id')->unsigned();
         $table->string('status')->nullable();
         $table->text('keterangan')->nullable();
-
-        $table->boolean('is_multi')->nullable();
-        $table->bigInteger('user_id')->nullable();
-        $table->string('user_name')->nullable();
+        $table->bigInteger("status_updated_by")->nullable();
+        $table->dateTime("status_updated_at")->nullable();
+        $table->string("status_updated_name")->nullable();
 
         $table->bigInteger("created_by")->unsigned()->nullable();
         $table->bigInteger("updated_by")->unsigned()->nullable();

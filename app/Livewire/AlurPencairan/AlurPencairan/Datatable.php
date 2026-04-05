@@ -5,7 +5,6 @@ namespace App\Livewire\AlurPencairan\AlurPencairan;
 use App\Helpers\Alert;
 use App\Helpers\PermissionHelper;
 use App\Models\AlurPencairan\AlurPencairan;
-use App\Models\AlurPencairan\AlurPencairanStatus;
 use App\Repositories\Account\UserRepository;
 use App\Repositories\AlurPencairan\AlurPencairanRepository;
 use App\Traits\Livewire\WithDatatable;
@@ -126,8 +125,17 @@ class Datatable extends Component
                 },
             ],
             [
+                'key' => 'plan_transfer',
+                'name' => 'Plan Transfer',
+            ],
+            [
                 'key' => 'judul',
                 'name' => 'Judul',
+            ],
+            [
+                'key' => 'type',
+                'name' => 'Jenis Pencairan',
+                'class' => 'text-center',
             ],
             [
                 'sortable' => false,
@@ -135,26 +143,29 @@ class Datatable extends Component
                 'key' => 'status',
                 'name' => 'Progress Status',
                 'render' => function ($item) {
-                    $alur_proseses = [];
-                    foreach ($item->AlurPencairanStatuses as $alur_proses) {
-                        $alur_proseses[] = [
-                            'name' => $alur_proses->AlurPencairanAlurProses->name . ' oleh : ' . $alur_proses->AlurPencairanAlurProses->role->name,
-                            'status' => $alur_proses->getProgressStatus(),
-                            'color' => $alur_proses->user->color,
+                    $statuses = [];
+                    foreach (collect($item->alurPencairanStatuses)->sortBy('nomor_urut')->values() as $status) {
+                        $statuses[] = [
+                            'name' => $status->name . ' oleh : ' . $status->role_name,
+                            'status' => $status->getProgressStatus(),
+                            'color' => $status->user->color,
+                            'nomor_urut' => $status->nomor_urut
                         ];
                     }
-
                     $html = '<div class="d-flex justify-content-start gap-1 con mb-2">';
-                    foreach ($alur_proseses as $index => $proses) {
-                        if (ceil(count($alur_proseses) / 2) == $index) {
+                    foreach ($statuses as $index => $proses) {
+                        if ($index % 10 == 0) {
                             $html .= '</div>
                             <div class="d-flex justify-content-start gap-1 con">';
                         }
+
+
                         $html .= '<span
-                            class="progress-box ' . ($proses['status'] ? 'bg-success' : '') . '" style="background-color:' . $proses['color'] . '"
+                            class="progress-box mb-1"
+                            style="background-color:' . ($proses['status'] ? '#50CD89' : $proses['color']) . '" 
                             data-bs-toggle="tooltip"
                             title="' . $proses['name'] . '"
-                        ><p class="text-center text-light">' . ($index + 1) . '</p></span>';
+                        ><p class="text-center text-light">' . ($proses['nomor_urut']) . '</p></span>';
                     }
 
                     $html .= '</div>';
@@ -166,7 +177,7 @@ class Datatable extends Component
                 'searchable' => false,
                 'name' => 'Keterangan',
                 'render' => function ($item) {
-                    return "Total : " . $item['qty_cair'] . ", Belum Transfer : " . $item->AlurPencairanDetailOnProses->count() . ", Valid :" . $item['qty_cair'] - $item->AlurPencairanDetailOnProses->count();
+                    return "Total : " . $item['qty_cair'] . ", Belum Transfer : " . $item->alurPencairanDetailOnProses->count() . ", Valid :" . $item['qty_cair'] - $item->alurPencairanDetailOnProses->count();
                 }
             ],
             [

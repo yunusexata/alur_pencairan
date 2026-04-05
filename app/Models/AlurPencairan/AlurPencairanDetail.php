@@ -72,12 +72,12 @@ class AlurPencairanDetail extends Model
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function updator_rekening_terbaru()
+    public function updatorRekeningTerbaru()
     {
         return $this->belongsTo(User::class, 'rekening_terbaru_updated_by', 'id');
     }
 
-    public function updator_tanggal_transfer()
+    public function updatoTanggalTransfer()
     {
         return $this->belongsTo(User::class, 'tanggal_transfer_updated_by', 'id');
     }
