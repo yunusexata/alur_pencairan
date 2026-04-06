@@ -84,13 +84,13 @@
                                                                     <div class="col-auto">   
                                                                         Plan Transfer
                                                                     </div>
-                                                                    <div class="col-auto bg-success text-white rounded p-1">
+                                                                    <div class="col-auto bg-success text-white rounded p-1 m-0">
                                                                         @if(
                                                                             Auth::user()->roles[0]->name == 
                                                                             App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
                                                                             [$alur['role_name']] 
                                                                             ) 
-                                                                                <input class="form-control" type="date" wire:model.live="plan_transfer">
+                                                                                <input class="form-control m-0" type="date" wire:model.live="plan_transfer">
                                                                         @else
                                                                             {{$plan_transfer}}
                                                                         @endif
