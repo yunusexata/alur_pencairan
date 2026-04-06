@@ -6,6 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', env('APP_NAME'))</title>
+    <!-- Standard favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('files/images/LOGO EXATA INDONESIA.svg') }}">
+    <link rel="icon" href="{{ asset('files/images/LOGO EXATA INDONESIA.svg') }}" type="image/x-icon">
+    
+    <!-- Apple devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('files/images/LOGO EXATA INDONESIA.svg') }}">
+
+    <!-- Shortcut icon -->
+    <link rel="shortcut icon" href="{{ asset('files/images/LOGO EXATA INDONESIA.svg') }}">
 
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
