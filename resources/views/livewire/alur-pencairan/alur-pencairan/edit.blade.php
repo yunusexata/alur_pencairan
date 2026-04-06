@@ -706,43 +706,46 @@
                                                         </tr>
                                                         @break
                                                     @default
-    
-                                                    <tr wire:key="alur-proses-{{$index_alur}}">
-                                                        {{-- <td>{{$loop->iteration}}</td> --}}
-                                                        <td>{{$alur['nomor_urut']}}</td>
-                                                        <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
-                                                        <td>{{$alur['name']}}</td>
-                                                        <td class="d-flex justify-content-center">
-                                                            @if(
-                                                                Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']] 
-                                                            && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
-                                                            ) 
-                                                                <input 
-                                                                class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
-                                                            @else 
-                                                                <input 
-                                                                class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$index_alur]['status_updated_at']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
-                                                        </td>
-                                                        <td>
-                                                            @if(Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']]
-                                                            &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
-                                                            )
-                                                                <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
-                                                            @else
-                                                                <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
-                                                            @endIf
-                                                        </td>
-                                                    </tr>
-    
-                                                        
+                                                    {{-- @if (in_array(Auth::user()->roles[0]->name)) --}}
+                                                    @if (
+                                                    empty(json_decode($alur['role_can_show'])) ||
+                                                    (!empty(json_decode($alur['role_can_show'])) && in_array(Auth::user()->roles[0]->name, json_decode($alur['role_can_show'])))
+                                                    )
+                                                        <tr wire:key="alur-proses-{{$index_alur}}">
+                                                            {{-- <td>{{$loop->iteration}}</td> --}}
+                                                            <td>{{$alur['nomor_urut']}}</td>
+                                                            <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                            <td>{{$alur['name']}}</td>
+                                                            <td class="d-flex justify-content-center">
+                                                                @if(
+                                                                    Auth::user()->roles[0]->name == 
+                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                [$alur['role_name']] 
+                                                                && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                                ) 
+                                                                    <input 
+                                                                    class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
+                                                                @else 
+                                                                    <input 
+                                                                    class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-success'}}">{{$alur_proseses[$index_alur]['status_updated_at']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
+                                                            </td>
+                                                            <td>
+                                                                @if(Auth::user()->roles[0]->name == 
+                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                [$alur['role_name']]
+                                                                &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                                )
+                                                                    <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                                @else
+                                                                    <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                                @endIf
+                                                            </td>
+                                                        </tr>  
+                                                    @endif
                                                 @endswitch
     
                                             @endforeach
