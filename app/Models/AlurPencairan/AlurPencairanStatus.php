@@ -73,7 +73,6 @@ class AlurPencairanStatus extends Model
             }
         });
         self::updating(function ($model) {
-
             if ($model->alur_proses_detail_id) {
                 $model = $model->alurProsesDetail->saveInfo($model, false, '');
             }
@@ -87,6 +86,11 @@ class AlurPencairanStatus extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function statusUpdator()
+    {
+        return $this->belongsTo(User::class, 'status_updated_by', 'id');
     }
 
     public function alurProses()

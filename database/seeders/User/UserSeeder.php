@@ -39,6 +39,16 @@ class UserSeeder extends Seeder
 
             $user->assignRole(AlurPencairan::ROLE_PAK_NOVI);
 
+            $user = User::create([
+                'name' => "supervisor",
+                'username' => "supervisor",
+                'email' => "supervisor@gmail.com",
+                'password' => Hash::make("123"),
+                'color' => '#6366F1',
+            ]);
+
+            $user->assignRole(AlurPencairan::ROLE_SUPERVISOR);
+
 
             $user = User::create([
                 'name' => "Acc Exata",

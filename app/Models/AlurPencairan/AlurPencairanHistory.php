@@ -51,6 +51,7 @@ class AlurPencairanHistory extends Model
                     'alur_pencairan_id' => $model->alur_pencairan_id,
                     'alur_proses_id' => $model->alur_proses_id,
                     'alur_proses_detail_id' => $model->alur_proses_detail_id,
+                    'user_id' => $model->user_id,
                 ],
                 [
                     'user_id' => $model->user_id,

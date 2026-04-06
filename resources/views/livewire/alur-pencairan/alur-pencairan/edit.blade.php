@@ -136,7 +136,7 @@
                                                             <td>{{$alur['name']}}</td>
                                                             <td class="d-flex justify-content-center">
                                                                 <input 
-                                                                class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
+                                                                class="form-check-input" type="checkbox" disabled style="border: 1px solid #D9CFC7" checked="checked">
                                                             </td>
                                                             <td>
                                                                 <h3 class="text-danger">Klik untuk melihat detail</h3>
@@ -457,10 +457,10 @@
                                                                                             <td>
                                                                                                     
                                                                                                 <div class="input-group">
-                                                                                                    <p class="form-control">
+                                                                                                    <p class="form-control mb-0">
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_terbaru'] ?? '-'}}
                                                                                                     </p>
-                                                                                                    <p class="form-control">
+                                                                                                    <p class="form-control mb-0">
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['jenis_rekening_terbaru'] }}
                                                                                                     </p>
                                                                                                 </div>

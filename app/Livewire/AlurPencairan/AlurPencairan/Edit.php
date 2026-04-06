@@ -54,7 +54,7 @@ class Edit extends Component
             $this->alur_proseses[] = array_merge(
                 [
                     'is_check' => $detail['status'] == AlurPencairanStatus::STATUS_DONE ? true : false,
-                    'creator_name' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['status'] . " oleh : " . $detail->user->name,
+                    'creator_name' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['status'] . " oleh : " . $detail->statusUpdator->name,
                     'tanggal_update' => $detail['status'] == AlurPencairanStatus::STATUS_PENDING ? '' : $detail['tanggal_update'],
                     'keterangan_old' => $detail['keterangan'],
                     'user_name' => $detail->user->name,
@@ -102,8 +102,8 @@ class Edit extends Component
                 'tanggal_transfer' => $detail['tanggal_transfer'],
                 'tanggal_transfer_old' => $detail['tanggal_transfer'],
                 'creator_name' => $detail['creator']['name'] . " pada: " . $detail['created_at'],
-                'updator_rekening_terbaru_name' => $detail['updator_rekening_terbaru'] ? $detail['updator_rekening_terbaru']['name'] : '',
-                'updator_tanggal_transfer_name' => $detail['updator_tanggal_transfer'] ? $detail['updator_tanggal_transfer']['name'] : '',
+                'updator_rekening_terbaru_name' => $detail->updatorRekeningTerbaru ? $detail->updatorRekeningTerbaru->name : '',
+                'updator_tanggal_transfer_name' => $detail->updatorTanggalTransfer ? $detail->updatorTanggalTransfer->name : '',
             ];
         }
     }
@@ -298,8 +298,16 @@ class Edit extends Component
                 foreach ($this->alur_proseses as $index => $alur_proses) {
                     if ($alur_proses['keterangan'] != $alur_proses['keterangan_old']) {
                         $validatedData = [
+
+                            'alur_pencairan_id' => $alur_proses['alur_pencairan_id'],
+                            'alur_proses_id' => $alur_proses['alur_proses_id'],
+                            'alur_proses_detail_id' => $alur_proses['alur_proses_detail_id'],
+                            'user_id' => $alur_proses['user_id'],
                             'keterangan' => $alur_proses['keterangan'],
                             'status' => $alur_proses['status'],
+                            'status_updated_by' => $alur_proses['status_updated_by'],
+                            'status_updated_at' => $alur_proses['status_updated_at'],
+                            'status_updated_name' => $alur_proses['status_updated_name'],
                         ];
                         AlurPencairanHistoryRepository::create($validatedData);
                         $this->editAlurPencairan(Crypt::encrypt($alur_proses['alur_pencairan_id']));

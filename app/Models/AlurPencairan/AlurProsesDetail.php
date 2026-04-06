@@ -48,7 +48,7 @@ class AlurProsesDetail extends Model
         return $object;
     }
     // ROLE ID
-    // pak novi 2, acc exata 3, hs 4, cc 5, finance 6, sales 7
+    // pak novi 2, acc exata 3, hs 4, cc 5, finance 6, sales 7, supervisor
     public const KEY_PLAN_TRANSFER = 'plan_transfer';
     public const KEY_INFO_REK_SALAH = 'info_rek_salah';
     public const KEY_MELENGKAPI_REK_SALAH = 'melengkapi_rek_salah';
@@ -770,10 +770,40 @@ class AlurProsesDetail extends Model
         'role_can_show' => [],
     ];
 
-    public const ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN = [
+    public const ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_SUPERVISOR = [
+        'name' => 'Cek hasil Convert Ichijikin',
+        'role_name' => AlurPencairan::ROLE_SUPERVISOR,
+        'is_multi' => false,
+        'by_user' => false,
+        'user_id' => null,
+        'alur_proses_key' => null,
+        'role_can_show' => [],
+    ];
+
+    public const ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_FINANCE = [
         'name' => 'Cek hasil Convert Ichijikin',
         'role_name' => AlurPencairan::ROLE_FINANCE,
         'is_multi' => false,
+        'by_user' => false,
+        'user_id' => null,
+        'alur_proses_key' => null,
+        'role_can_show' => [],
+    ];
+
+    public const ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_ACC_EXATA = [
+        'name' => 'Cek hasil Convert Ichijikin',
+        'role_name' => AlurPencairan::ROLE_ACC_EXATA,
+        'is_multi' => false,
+        'by_user' => false,
+        'user_id' => null,
+        'alur_proses_key' => null,
+        'role_can_show' => [],
+    ];
+
+    public const ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_HS = [
+        'name' => 'Cek hasil Convert Ichijikin',
+        'role_name' => AlurPencairan::ROLE_HS,
+        'is_multi' => true,
         'by_user' => false,
         'user_id' => null,
         'alur_proses_key' => null,
@@ -904,7 +934,10 @@ class AlurProsesDetail extends Model
         self::ALUR_PROSES_80_TERIMA_PDF_ICHIJIKIN,
         self::ALUR_PROSES_80_SHARE_ICHIJIKIN_KE_CC,
         self::ALUR_PROSES_80_CONVERT_ICHIJIKIN_KE_FILE,
-        self::ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN,
+        self::ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_SUPERVISOR,
+        self::ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_ACC_EXATA,
+        self::ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_FINANCE,
+        self::ALUR_PROSES_80_CEK_HASIL_CONVERT_ICHIJIKIN_HS,
         self::ALUR_PROSES_80_KIRIM_HASIL_CONVERT_KE_BU_INDI,
         self::ALUR_PROSES_80_SHARE_LIST_NAMA_KE_DRIVE,
         self::ALUR_PROSES_80_BLOCK01_TARIK_DATA,
