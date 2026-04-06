@@ -296,6 +296,7 @@ class AlurProsesDetail extends Model
         'user_id' => null,
         'alur_proses_key' => null,
         'role_can_show' => [
+            AlurPencairan::ROLE_SUPER_ADMIN,
             AlurPencairan::ROLE_PAK_NOVI,
             AlurPencairan::ROLE_ACC_EXATA,
             AlurPencairan::ROLE_FINANCE,
@@ -320,6 +321,7 @@ class AlurProsesDetail extends Model
         'user_id' => null,
         'alur_proses_key' => null,
         'role_can_show' => [
+            AlurPencairan::ROLE_SUPER_ADMIN,
             AlurPencairan::ROLE_PAK_NOVI,
             AlurPencairan::ROLE_ACC_EXATA,
             AlurPencairan::ROLE_FINANCE,
@@ -668,6 +670,7 @@ class AlurProsesDetail extends Model
         'user_id' => null,
         'alur_proses_key' => null,
         'role_can_show' => [
+            AlurPencairan::ROLE_SUPER_ADMIN,
             AlurPencairan::ROLE_PAK_NOVI,
             AlurPencairan::ROLE_ACC_EXATA,
             AlurPencairan::ROLE_FINANCE,
@@ -691,6 +694,7 @@ class AlurProsesDetail extends Model
         'user_id' => null,
         'alur_proses_key' => null,
         'role_can_show' => [
+            AlurPencairan::ROLE_SUPER_ADMIN,
             AlurPencairan::ROLE_PAK_NOVI,
             AlurPencairan::ROLE_ACC_EXATA,
             AlurPencairan::ROLE_FINANCE,
