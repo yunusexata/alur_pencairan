@@ -104,6 +104,8 @@ class Edit extends Component
                 'creator_name' => $detail['creator']['name'] . " pada: " . $detail['created_at'],
                 'updator_rekening_terbaru_name' => $detail->updatorRekeningTerbaru ? $detail->updatorRekeningTerbaru->name : '',
                 'updator_tanggal_transfer_name' => $detail->updatorTanggalTransfer ? $detail->updatorTanggalTransfer->name : '',
+                'rekening_terbaru_updated_at' => $detail->updatorRekeningTerbaru ? $detail->rekening_terbaru_updated_at : '',
+                'tanggal_transfer_updated_at' => $detail->updatorTanggalTransfer ? $detail->tanggal_transfer_updated_at : '',
             ];
         }
     }

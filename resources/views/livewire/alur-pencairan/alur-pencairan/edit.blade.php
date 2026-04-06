@@ -394,7 +394,7 @@
                                                                                                     </select>
                                                                                                 </div>
                                                                                                 
-                                                                                                {!! $data_salah_transfers[$index_data_salah_transfer]['id'] ?  '<div class="form-text">Diupdate oleh: ' . $data_salah_transfers[$index_data_salah_transfer]['updator_rekening_terbaru_name'] . '</div>' : ''!!}
+                                                                                                {!! $data_salah_transfers[$index_data_salah_transfer]['id'] ?  '<div class="form-text">Diupdate oleh: ' . $data_salah_transfers[$index_data_salah_transfer]['updator_rekening_terbaru_name'] . ', pada: '. $data_salah_transfers[$index_data_salah_transfer]['rekening_terbaru_updated_at'].'</div>' : ''!!}
     
                                                                                                 @error('data_salah_transfers.{{$index_data_salah_transfer}}.rekening_terbaru')
                                                                                                     <div class="text-danger">{{ $message }}</div>
@@ -464,7 +464,7 @@
                                                                                                         {{ $data_salah_transfers[$index_data_salah_transfer]['jenis_rekening_terbaru'] }}
                                                                                                     </p>
                                                                                                 </div>
-                                                                                                <div class="form-text">Diupdate oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['updator_rekening_terbaru_name'] }}</div>
+                                                                                                <div class="form-text">Diupdate oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['updator_rekening_terbaru_name'] }}, pada: {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_terbaru_updated_at'] }}</div>
                                                                                                 
                                                                                             </td>
     
@@ -585,8 +585,8 @@
                                                                                             </td>
     
                                                                                             <td>
-                                                                                                <input placeholder="Tgl Transfer" type="date" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer" class="form-control {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ? '' : 'is-invalid' }}">
-                                                                                                {!! $data_salah_transfers[$index_data_salah_transfer]['id'] ?  '<div class="form-text">Diupdate oleh: ' . $data_salah_transfers[$index_data_salah_transfer]['updator_tanggal_transfer_name'] . '</div>' : ''!!}
+                                                                                                <input placeholder="Tgl Transfer" type="date" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer" class="form-control mb-0 {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ? '' : 'is-invalid' }}">
+                                                                                                {!! $data_salah_transfers[$index_data_salah_transfer]['id'] ?  '<div class="form-text">Diupdate oleh: ' . $data_salah_transfers[$index_data_salah_transfer]['updator_tanggal_transfer_name'] . ', pada: '. $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer_updated_at'] .'</div>' : ''!!}
                                                                                                 @error('data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer')
                                                                                                     <div class="text-danger">{{ $message }}</div>
                                                                                                 @enderror
@@ -646,9 +646,9 @@
                                                                                             </td>
     
                                                                                             <td>
-                                                                                                <p class="form-control">
+                                                                                                <p class="form-control mb-0">
                                                                                                     {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ?? '-'}}
-                                                                                                    <div class="form-text">Diupdate oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['updator_tanggal_transfer_name'] }}</div>
+                                                                                                    <div class="form-text">Diupdate oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['updator_tanggal_transfer_name'] }}, pada: {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer_updated_at'] }}</div>
                                                                                                 </p>
                                                                                             </td>
                                                                                             <td>
