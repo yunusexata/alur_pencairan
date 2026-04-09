@@ -3,6 +3,7 @@
 namespace App\Models\AlurPencairan;
 
 use App\Models\User;
+use App\Repositories\AlurPencairan\AlurNotificationHistoryRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -75,6 +76,30 @@ class AlurPencairanStatus extends Model
         self::updating(function ($model) {
             if ($model->alur_proses_detail_id) {
                 $model = $model->alurProsesDetail->saveInfo($model, false, '');
+            }
+        });
+        self::updated(function ($model) {
+            $note = false;
+            if ($model->isDirty('status')) {
+                $note = 'Status diubah: '
+                    . $model->getOriginal('status')
+                    . ' menjadi: '
+                    . $model->status;
+            }
+            if ($model->isDirty('keterangan')) {
+                $note = 'Keterangan diubah: '
+                    . $model->getOriginal('keterangan')
+                    . ' menjadi: '
+                    . $model->keterangan;
+            }
+            if ($note) {
+                AlurNotificationHistoryRepository::create([
+                    'remarks_id' => $model->id,
+                    'remarks_type' => self::class,
+                    'title' => $model->name,
+                    'note' => $note,
+                    'status' => AlurNotificationHistory::STATUS_UPDATED
+                ]);
             }
         });
     }

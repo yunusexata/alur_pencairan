@@ -33,10 +33,15 @@ return new class extends Migration
         if ($is_history) {
             $table->bigInteger('obj_id')->unsigned();
         } else {
-            $table->index('alur_pencairan_id', 'alur_pencairan_histories_alur_pencairan_id_idx');
+            $table->index('remarks_id', 'send_whatsapps_remarks_id_idx');
+            $table->index('remarks_type', 'send_whatsapps_remarks_type_idx');
         }
 
         $table->bigInteger('remarks_id')->unsigned();
+        $table->string('remarks_type');
+        $table->text('title')->nullable();
+        $table->text('note')->nullable();
+        $table->string('status')->nullable();
 
         $table->bigInteger("created_by")->unsigned()->nullable();
         $table->bigInteger("updated_by")->unsigned()->nullable();

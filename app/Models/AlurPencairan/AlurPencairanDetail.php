@@ -3,6 +3,7 @@
 namespace App\Models\AlurPencairan;
 
 use App\Models\User;
+use App\Repositories\AlurPencairan\AlurNotificationHistoryRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,6 +52,46 @@ class AlurPencairanDetail extends Model
     ];
 
     protected $guarded = ['id'];
+    protected static function onBoot()
+    {
+        self::created(function ($model) {
+            $note = "Dibuat oleh: " . $model->creator->name;
+            AlurNotificationHistoryRepository::create([
+                'remarks_id' => $model->id,
+                'remarks_type' => self::class,
+                'title' => AlurProsesDetail::ALUR_SPEED_20_INFO_REKENING_SALAH['name'],
+                'note' => $note,
+                'status' => AlurNotificationHistory::STATUS_CREATED
+            ]);
+        });
+        self::updated(function ($model) {
+            $title = false;
+            $note = false;
+            if ($model->isDirty('rekening_terbaru')) {
+                $note = 'Rekening terbaru diubah: '
+                    . $model->getOriginal('rekening_terbaru')
+                    . ' menjadi: '
+                    . $model->rekening_terbaru;
+                $title = 'Perubahan rekening terbaru';
+            }
+            if ($model->isDirty('tanggal_transfer')) {
+                $note = 'Tanggal transfer diubah: '
+                    . $model->getOriginal('tanggal_transfer')
+                    . ' menjadi: '
+                    . $model->tanggal_transfer;
+                $title = 'Perubahan tanggal transfer';
+            }
+            if ($title) {
+                AlurNotificationHistoryRepository::create([
+                    'remarks_id' => $model->id,
+                    'remarks_type' => self::class,
+                    'title' => $title,
+                    'note' => $note,
+                    'status' => AlurNotificationHistory::STATUS_UPDATED
+                ]);
+            }
+        });
+    }
 
     public function isDeletable()
     {

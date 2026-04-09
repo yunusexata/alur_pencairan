@@ -2,6 +2,8 @@
 
 namespace App\Models\AlurPencairan;
 
+use App\Models\User;
+use App\Repositories\AlurPencairan\AlurNotificationHistoryRepository;
 use App\Repositories\AlurPencairan\AlurPencairanAlurProsesRepository;
 use App\Repositories\AlurPencairan\AlurPencairanHistoryRepository;
 use App\Repositories\AlurPencairan\AlurProsesRepository;
@@ -157,6 +159,39 @@ class AlurPencairan extends Model
 
     protected static function onBoot()
     {
+        self::updated(function ($model) {
+            $note = false;
+            if ($model->isDirty('judul')) {
+
+                $note = 'Judul diubah: '
+                    . $model->getOriginal('judul')
+                    . ' menjadi: '
+                    . $model->judul;
+            };
+            if ($model->isDirty('qty_cair')) {
+
+                $note = 'QTY Cair diubah: '
+                    . $model->getOriginal('qty_cair')
+                    . ' menjadi: '
+                    . $model->judul;
+            };
+            if ($model->isDirty('plan_transfer')) {
+
+                $note = 'Plan transfer diubah: '
+                    . $model->getOriginal('plan_transfer')
+                    . ' menjadi: '
+                    . $model->plan_transfer;
+            };
+            if ($note) {
+                AlurNotificationHistoryRepository::create([
+                    'remarks_id' => $model->id,
+                    'remarks_type' => self::class,
+                    'title' => $model->judul,
+                    'note' => $note,
+                    'status' => AlurNotificationHistory::STATUS_UPDATED
+                ]);
+            }
+        });
         self::created(function ($model) {
             $alur_proses = AlurProsesRepository::findBy([
                 ['name', '=', $model->type],
@@ -199,6 +234,13 @@ class AlurPencairan extends Model
                     ]);
                 }
             }
+            AlurNotificationHistoryRepository::create([
+                'remarks_id' => $model->id,
+                'remarks_type' => self::class,
+                'title' => $model->judul,
+                'note' => "Dibuat oleh: " . $model->creator->name,
+                'status' => AlurNotificationHistory::STATUS_CREATED
+            ]);
         });
     }
 
@@ -210,6 +252,11 @@ class AlurPencairan extends Model
             ], function ($query) {
                 $query->groupBy('alur_pencairan_alur_proses_id');
             });
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function alurPencairanDetails()

@@ -160,6 +160,7 @@ class Edit extends Component
             });
             $this->getJumlahBelumMelengkapiRekeningSalah();
             $this->getJumlahBelumTransferSusulan();
+            $this->dispatch('notification-refresh');
 
             $this->getDataSalahTransfer();
             DB::commit();
@@ -200,6 +201,7 @@ class Edit extends Component
 
                 $this->getJumlahBelumMelengkapiRekeningSalah();
                 $this->getJumlahBelumTransferSusulan();
+                $this->dispatch('notification-refresh');
             });
             $this->getDataSalahTransfer();
 
@@ -239,6 +241,7 @@ class Edit extends Component
 
                 $this->getJumlahBelumMelengkapiRekeningSalah();
                 $this->getJumlahBelumTransferSusulan();
+                $this->dispatch('notification-refresh');
             });
 
             $this->getDataSalahTransfer();
@@ -327,6 +330,7 @@ class Edit extends Component
                         $this->editAlurPencairan(Crypt::encrypt($alur_proses['alur_pencairan_id']));
                     }
                 }
+                $this->dispatch('notification-refresh');
             });
 
 
@@ -357,6 +361,7 @@ class Edit extends Component
                     'status_updated_at' => now(),
                 ]);
                 $this->editAlurPencairan(Crypt::encrypt($alur_pencairan_id));
+                $this->dispatch('notification-refresh');
             });
 
 
@@ -401,6 +406,7 @@ class Edit extends Component
 
                     AlurPencairanHistoryRepository::create($validatedData);
                     $this->editAlurPencairan(Crypt::encrypt($alur_proses['alur_pencairan_id']));
+                    $this->dispatch('notification-refresh');
                 });
 
 
