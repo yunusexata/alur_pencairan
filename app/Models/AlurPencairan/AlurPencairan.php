@@ -242,6 +242,15 @@ class AlurPencairan extends Model
                 'status' => AlurNotificationHistory::STATUS_CREATED
             ]);
         });
+        self::deleted(function ($model) {
+            AlurNotificationHistoryRepository::create([
+                'remarks_id' => $model->id,
+                'remarks_type' => self::class,
+                'title' => $model->judul,
+                'note' => "Dihapus oleh: " . $model->deletor->name,
+                'status' => AlurNotificationHistory::STATUS_DELETE
+            ]);
+        });
     }
 
     public function latestHistories()
@@ -257,6 +266,10 @@ class AlurPencairan extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+    public function deletor()
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 
     public function alurPencairanDetails()
