@@ -3,6 +3,7 @@
 namespace App\Livewire\AlurPencairan\AlurPencairan;
 
 use App\Helpers\Alert;
+use App\Helpers\NumberFormatter;
 use App\Models\AlurPencairan\AlurPencairan;
 use App\Models\AlurPencairan\AlurPencairanDetail;
 use App\Models\AlurPencairan\AlurPencairanHistory;
@@ -143,7 +144,7 @@ class Edit extends Component
                         'jenis_rekening_lama' => $data_tranfer['jenis_rekening_lama'],
                         'jenis_rekening_terbaru' => $data_tranfer['jenis_rekening_terbaru'],
                         'tanggal_lahir' => $data_tranfer['tanggal_lahir'],
-                        'nominal_cair' => $data_tranfer['nominal_cair'],
+                        'nominal_cair' => NumberFormatter::imaskToValue($data_tranfer['nominal_cair']),
                         'status' => AlurPencairanDetail::STATUS_PROSES,
                         'status_updated_at' => now(),
                         // 'mata_uang' => $data_tranfer['mata_uang'],
@@ -269,7 +270,7 @@ class Edit extends Component
             'no_input_jepang' => '',
             'nama_lengkap' => '',
             'tanggal_lahir' => '',
-            'nominal_cair' => '',
+            'nominal_cair' => 0,
             'rekening_lama' => '',
             'jenis_rekening_lama' => AlurPencairanDetail::JENIS_REKENING_INDONESIA,
             'rekening_terbaru' => '',

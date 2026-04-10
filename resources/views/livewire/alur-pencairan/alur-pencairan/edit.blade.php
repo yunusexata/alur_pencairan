@@ -242,7 +242,7 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <div class="input-group mb-3">
-                                                                                                    <input placeholder="Nominal Cair" type="number" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.nominal_cair" class="form-control">
+                                                                                                    <input placeholder="Nominal Cair" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.nominal_cair" class="form-control currency" max="999999999999999">
                                                                                                     {{-- <select class="form-select" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.mata_uang">
                                                                                                         @foreach ($this->mata_uang_choices as $key => $name)
                                                                                                             <option value="{{$key}}">{{$name}}</option>
@@ -304,7 +304,7 @@
                                                                                             <td>
                                                                                                 
                                                                                                 <p class="form-control">
-                                                                                                    {{ $data_salah_transfers[$index_data_salah_transfer]['nominal_cair'] }}
+                                                                                                    @currency($data_salah_transfers[$index_data_salah_transfer]['nominal_cair'])
                                                                                                 </p>
                                                                                             </td>
                                                                                             <td>
@@ -446,7 +446,7 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <div class="input-group mb-3">
-                                                                                                    <p class="form-control">{{$data_salah_transfers[$index_data_salah_transfer]['nominal_cair']}}</p>
+                                                                                                    <p class="form-control">@currency($data_salah_transfers[$index_data_salah_transfer]['nominal_cair'])</p>
                                                                                                     {{-- <select class="form-select" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.mata_uang">
                                                                                                         @foreach ($this->mata_uang_choices as $key => $name)
                                                                                                             <option value="{{$key}}">{{$name}}</option>
@@ -508,7 +508,7 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <p class="form-control">
-                                                                                                    {{ $data_salah_transfers[$index_data_salah_transfer]['nominal_cair'] }}
+                                                                                                    @currency($data_salah_transfers[$index_data_salah_transfer]['nominal_cair'])
                                                                                                 </p>
                                                                                             </td>
                                                                                         </tr>
@@ -640,7 +640,7 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <div class="input-group mb-3">
-                                                                                                    <p class="form-control">{{$data_salah_transfers[$index_data_salah_transfer]['nominal_cair']}}</p>
+                                                                                                    @currency($data_salah_transfers[$index_data_salah_transfer]['nominal_cair'])
                                                                                                     {{-- <select class="form-select" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.mata_uang">
                                                                                                         @foreach ($this->mata_uang_choices as $key => $name)
                                                                                                             <option value="{{$key}}">{{$name}}</option>
@@ -701,7 +701,7 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <p class="form-control">
-                                                                                                    {{ $data_salah_transfers[$index_data_salah_transfer]['nominal_cair'] }}
+                                                                                                    @currency($data_salah_transfers[$index_data_salah_transfer]['nominal_cair'])
                                                                                                 </p>
                                                                                             </td>
                                                                                         </tr>
@@ -972,6 +972,8 @@
         }
     </style>
 @endpush
+
+@include('js.imask')
 
 @push('js')
     <script>

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
             database_path('migrations/other'),
             database_path('migrations/alur_pencairan'),
         ]);
+
+        Blade::directive('currency', function ($expression) {
+            return "<?php echo App\Helpers\NumberFormatter::format($expression); ?>";
+        });
     }
 }
