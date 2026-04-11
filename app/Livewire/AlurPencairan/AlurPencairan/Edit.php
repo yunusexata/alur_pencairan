@@ -110,6 +110,7 @@ class Edit extends Component
                 'rekening_terbaru_updated_at' => $detail->updatorRekeningTerbaru ? $detail->rekening_terbaru_updated_at : '',
                 'tanggal_transfer_updated_at' => $detail->updatorTanggalTransfer ? $detail->tanggal_transfer_updated_at : '',
                 'keterangan' => $detail['keterangan'],
+                'mata_uang' => $detail['mata_uang'],
             ];
         }
     }
@@ -146,6 +147,7 @@ class Edit extends Component
                         'nama_lengkap' => $data_tranfer['nama_lengkap'],
                         'rekening_lama' => $data_tranfer['rekening_lama'],
                         'jenis_rekening_lama' => $data_tranfer['jenis_rekening_lama'],
+                        'mata_uang' => $data_tranfer['mata_uang'],
                         'jenis_rekening_terbaru' => $data_tranfer['jenis_rekening_terbaru'],
                         'keterangan' => $data_tranfer['keterangan'],
                         'tanggal_lahir' => $tgl_lahir,

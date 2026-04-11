@@ -36,6 +36,7 @@ class AlurPencairanDetail extends Model
         "tanggal_transfer_updated_at",
 
         "keterangan",
+        "mata_uang",
     ];
 
 
@@ -51,6 +52,13 @@ class AlurPencairanDetail extends Model
     const JENIS_REKENING_CHOICE = [
         self::JENIS_REKENING_INDONESIA => 'INDONESIA',
         self::JENIS_REKENING_JEPANG => 'JEPANG',
+    ];
+
+    const MATA_UANG_RUPIAH = 'RUPIAH';
+    const MATA_UANG_YEN = 'YEN';
+    const MATA_UANG_CHOICE = [
+        self::MATA_UANG_RUPIAH => 'RUPIAH',
+        self::MATA_UANG_YEN => 'YEN',
     ];
 
     protected $guarded = ['id'];
