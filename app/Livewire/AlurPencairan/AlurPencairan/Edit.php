@@ -292,6 +292,7 @@ class Edit extends Component
             'tanggal_transfer_updated_at' => '',
 
             'keterangan' => '',
+            'mata_uang' => AlurPencairanDetail::MATA_UANG_RUPIAH,
         ];
     }
 
