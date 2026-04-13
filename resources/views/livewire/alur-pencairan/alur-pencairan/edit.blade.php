@@ -142,7 +142,7 @@
                                                     @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_INFO_REK_SALAH)
                                                         
                                                         <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
-                                                            data-bs-target="#data-salah-transfer" wire:click="getDataSalahTransfer">
+                                                            data-bs-target="#data-salah-transfer" wire:click="getDataSalahTransfer" style="cursor: pointer;">
                                                             <td>{{$alur['nomor_urut']}}</td>
                                                             <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                             <td>{{$alur['name']}}</td>
@@ -350,7 +350,7 @@
                                                     @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_MELENGKAPI_REK_SALAH)
                                                         
                                                         <tr wire:key="alur-proses-{{$index_alur}}"  data-bs-toggle="collapse"
-                                                            data-bs-target="#melengkapi-rekening-salah" wire:click="getDataSalahTransfer">
+                                                            data-bs-target="#melengkapi-rekening-salah" wire:click="getDataSalahTransfer" style="cursor: pointer;">
                                                             <td>{{$alur['nomor_urut']}}</td>
                                                             <td>{{$alur['role_name']}}</td> 
                                                             <td>{{$alur['name']}}</td>
@@ -559,7 +559,7 @@
                                                     @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_TRANSFER_SUSULAN)
     
                                                         <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
-                                                            data-bs-target="#transfer-susulan" wire:click="getDataSalahTransfer">
+                                                            data-bs-target="#transfer-susulan" wire:click="getDataSalahTransfer" style="cursor: pointer;">
                                                             <td>{{$alur['nomor_urut']}}</td>
                                                             <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                             <td>{{$alur['name']}}</td>
