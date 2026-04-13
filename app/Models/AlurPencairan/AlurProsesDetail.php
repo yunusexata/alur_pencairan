@@ -490,16 +490,6 @@ class AlurProsesDetail extends Model
         'role_can_show' => [],
     ];
 
-    public const ALUR_NORMAL_KIRIM_KONTEN_PENCAIRAN = [
-        'name' => 'Kirim Konten Pencairan u di posting sales',
-        'role_name' => AlurPencairan::ROLE_CC,
-        'is_multi' => false,
-        'by_user' => false,
-        'user_id' => null,
-        'alur_proses_key' => null,
-        'role_can_show' => [],
-    ];
-
     public const ALUR_NORMAL_PLAN_TRANSFER = [
         'name' => 'Plan Transfer',
         'role_name' => AlurPencairan::ROLE_ACC_EXATA,
@@ -713,7 +703,6 @@ class AlurProsesDetail extends Model
         self::ALUR_NORMAL_KIRIM_ALL_ICHIJIKIN_KE_ACC,
         self::ALUR_NORMAL_KIRIM_DOKUMEN_KE_FINANCE,
         self::ALUR_NORMAL_KIRIM_GAMBAR_LIST_POSTING_SALES,
-        self::ALUR_NORMAL_KIRIM_KONTEN_PENCAIRAN,
         self::ALUR_NORMAL_PLAN_TRANSFER,
         self::ALUR_NORMAL_BUAT_KWITANSI_KE_CC,
         self::ALUR_NORMAL_CEK_PRINT_LIST_CAIR,

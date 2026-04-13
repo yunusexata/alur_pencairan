@@ -82,13 +82,20 @@
                                     </tr>
                                 </thead>
                                 @if ($alur_proseses)
+                                    @php
+                                        $array_nomor = [];
+                                        $nomor_urut = 0;
+                                    @endphp
                                     <tbody>
                                         {{-- {{dd($alur_proseses)}} --}}
                                         @foreach ($alur_proseses as $index_alur =>  $alur)
                                             @switch($alur['alur_proses_key'])
                                                 @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_PLAN_TRANSFER)
+                                                    @php
+                                                        $nomor_urut ++;
+                                                    @endphp
                                                     <tr wire:key="alur-proses-{{$index_alur}}">    
-                                                        <td>{{$alur['nomor_urut']}}</td>
+                                                        <td>{{$nomor_urut}}</td>
                                                         <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                         <td>
                                                             <div class="row d-flex justify-content-center align-items-center">
@@ -139,10 +146,12 @@
                                                     </tr>
                                                     @break
                                                 @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_INFO_REK_SALAH)
-                                                    
+                                                    @php
+                                                        $nomor_urut ++;
+                                                    @endphp
                                                     <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
                                                         data-bs-target="#data-salah-transfer" wire:click="getDataSalahTransfer" style="cursor: pointer;">
-                                                        <td>{{$alur['nomor_urut']}}</td>
+                                                        <td>{{$nomor_urut}}</td>
                                                         <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                         <td>{{$alur['name']}}</td>
                                                         <td class="d-flex justify-content-center">
@@ -338,10 +347,12 @@
                                                     </tr>
                                                     @break
                                                 @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_MELENGKAPI_REK_SALAH)
-                                                    
+                                                    @php
+                                                        $nomor_urut ++;
+                                                    @endphp
                                                     <tr wire:key="alur-proses-{{$index_alur}}"  data-bs-toggle="collapse"
                                                         data-bs-target="#melengkapi-rekening-salah" wire:click="getDataSalahTransfer" style="cursor: pointer;">
-                                                        <td>{{$alur['nomor_urut']}}</td>
+                                                        <td>{{$nomor_urut}}</td>
                                                         <td>{{$alur['role_name']}}</td> 
                                                         <td>{{$alur['name']}}</td>
                                                         <td class="d-flex justify-content-center">
@@ -489,10 +500,12 @@
                                                     </tr>
                                                     @break
                                                 @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_TRANSFER_SUSULAN)
-
+                                                    @php
+                                                        $nomor_urut ++;
+                                                    @endphp
                                                     <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
                                                         data-bs-target="#transfer-susulan" wire:click="getDataSalahTransfer" style="cursor: pointer;">
-                                                        <td>{{$alur['nomor_urut']}}</td>
+                                                        <td>{{$nomor_urut}}</td>
                                                         <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                         <td>{{$alur['name']}}</td>
                                                         <td class="d-flex justify-content-center">
@@ -626,14 +639,23 @@
                                                     </tr>
                                                     @break
                                                 @default
-                                                {{-- @if (in_array(Auth::user()->roles[0]->name)) --}}
+                                                @php
+                                                    if($alur['is_multi']){
+                                                        if(!in_array($alur['name'], $array_nomor)){
+                                                            $nomor_urut ++;
+                                                            $array_nomor[] = $alur['name'];
+                                                        }
+                                                    }else{
+                                                        $nomor_urut ++;
+                                                    }
+                                                @endphp
                                                 @if (
                                                 empty(json_decode($alur['role_can_show'])) ||
                                                 (!empty(json_decode($alur['role_can_show'])) && in_array(Auth::user()->roles[0]->name, json_decode($alur['role_can_show'])))
                                                 )
                                                     <tr wire:key="alur-proses-{{$index_alur}}">
                                                         {{-- <td>{{$loop->iteration}}</td> --}}
-                                                        <td>{{$alur['nomor_urut']}}</td>
+                                                        <td>{{$nomor_urut}}</td>
                                                         <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                         <td>{{$alur['name']}}</td>
                                                         <td class="d-flex justify-content-center">
