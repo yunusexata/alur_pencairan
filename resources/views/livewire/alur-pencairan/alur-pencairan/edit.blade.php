@@ -480,7 +480,7 @@
                                                                                     <td colspan="6" class="my-0 py-0">
                                                                                        <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
 
-                                                                                        @if($tranfer['id'])
+                                                                                        @if($tranfer['updator_rekening_terbaru_name'])
                                                                                             <div class="form-text text-info my-0 py-0">
                                                                                                 Diupdate oleh:
                                                                                                 {{$tranfer['updator_rekening_terbaru_name']}}
@@ -619,7 +619,7 @@
                                                                                     <td colspan="7" class="my-0 py-0">
                                                                                         <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
 
-                                                                                        @if($tranfer['id'])
+                                                                                        @if($tranfer['updator_tanggal_transfer_name'])
                                                                                             <div class="form-text text-info my-0 py-0">
                                                                                                 Diupdate oleh:
                                                                                                 {{$tranfer['updator_tanggal_transfer_name']}}
