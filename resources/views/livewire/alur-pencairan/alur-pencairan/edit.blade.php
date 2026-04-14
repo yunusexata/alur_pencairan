@@ -15,9 +15,10 @@
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form wire:submit.prevent="saveChanges">
-                    <div class="modal-body import_modal" style="background-color: lighten(#398B93, 40%);">
-                        <div class="table-users">
+                
+                <div class="modal-body import_modal" style="background-color: lighten(#398B93, 40%);">
+                    <div class="table-users">
+                        <form wire:submit.prevent="saveChanges">
                             <div class="header">
                                 @if ($alur_pencairan)
                             
@@ -70,120 +71,122 @@
                                     </div>
                                 @endif
                             </div>
-                            <table class="table table-bordered table-hover text-nowrap w-100 h-100 fixed-parent-table">
-                                <thead>
-                                    <tr>
-                                        <th class="fw-bold text-center" style="width:3%;">No</th>
-                                        <th class="fw-bold text-center" style="width:6%;">PIC</th>
-                                        <th class="fw-bold " style="width:25%;">Alur Proses</th>
-                                        <th class="fw-bold text-center" style="width:4%;">Aksi</th>
-                                        <th class="fw-bold text-center" style="width:20%;">Tanggal</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                </thead>
-                                @if ($alur_proseses)
-                                    @php
-                                        $array_nomor = [];
-                                        $nomor_urut = 0;
-                                    @endphp
-                                    <tbody>
-                                        {{-- {{dd($alur_proseses)}} --}}
-                                        @foreach ($alur_proseses as $index_alur =>  $alur)
-                                            @switch($alur['alur_proses_key'])
-                                                @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_PLAN_TRANSFER)
-                                                    @php
-                                                        $nomor_urut ++;
-                                                    @endphp
-                                                    <tr wire:key="alur-proses-{{$index_alur}}">    
-                                                        <td>{{$nomor_urut}}</td>
-                                                        <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
-                                                        <td>
-                                                            <div class="row d-flex justify-content-center align-items-center">
-                                                                <div class="col-auto">   
-                                                                    Plan Transfer
-                                                                </div>
-                                                                <div class="col-auto bg-success text-white rounded p-1 m-0">
-                                                                    @if(
-                                                                        Auth::user()->roles[0]->name == 
-                                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                                        [$alur['role_name']] 
-                                                                        ) 
-                                                                            <input class="form-control m-0" type="date" wire:model.live="plan_transfer">
-                                                                    @else
-                                                                        {{$plan_transfer}}
-                                                                    @endif
-                                                                </div>
+                        </form>
+                        <table class="table table-bordered table-hover text-nowrap w-100 h-100 fixed-parent-table">
+                            <thead>
+                                <tr>
+                                    <th class="fw-bold text-center" style="width:3%;">No</th>
+                                    <th class="fw-bold text-center" style="width:6%;">PIC</th>
+                                    <th class="fw-bold " style="width:25%;">Alur Proses</th>
+                                    <th class="fw-bold text-center" style="width:4%;">Aksi</th>
+                                    <th class="fw-bold text-center" style="width:20%;">Tanggal</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            @if ($alur_proseses)
+                                @php
+                                    $array_nomor = [];
+                                    $nomor_urut = 0;
+                                @endphp
+                                <tbody>
+                                    {{-- {{dd($alur_proseses)}} --}}
+                                    @foreach ($alur_proseses as $index_alur =>  $alur)
+                                        @switch($alur['alur_proses_key'])
+                                            @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_PLAN_TRANSFER)
+                                                @php
+                                                    $nomor_urut ++;
+                                                @endphp
+                                                <tr wire:key="alur-proses-{{$index_alur}}">    
+                                                    <td>{{$nomor_urut}}</td>
+                                                    <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                    <td>
+                                                        <div class="row d-flex justify-content-center align-items-center">
+                                                            <div class="col-auto">   
+                                                                Plan Transfer
                                                             </div>
-                                                        </td>
-                                                        <td class="d-flex justify-content-center">
-                                                            @if(
-                                                            Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']] 
-                                                            && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
-                                                            ) 
-                                                                <input 
-                                                                class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
-                                                            @else 
-                                                                <input 
-                                                                class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-status-done'}}">{{$alur_proseses[$index_alur]['tanggal_update']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
-                                                        </td>
-                                                        <td>
-                                                            @if(Auth::user()->roles[0]->name == 
-                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                                [$alur['role_name']]
-                                                                &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
-                                                                )
-                                                                <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
-                                                            @else
-                                                                <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
-                                                            @endIf
-                                                        </td>
-                                                    </tr>
-                                                    @break
-                                                @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_INFO_REK_SALAH)
-                                                    @php
-                                                        $nomor_urut ++;
-                                                    @endphp
-                                                    <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
-                                                        data-bs-target="#data-salah-transfer" wire:click="getDataSalahTransfer" style="cursor: pointer;">
-                                                        <td>{{$nomor_urut}}</td>
-                                                        <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
-                                                        <td>{{$alur['name']}}</td>
-                                                        <td class="d-flex justify-content-center">
+                                                            <div class="col-auto bg-success text-white rounded p-1 m-0">
+                                                                @if(
+                                                                    Auth::user()->roles[0]->name == 
+                                                                    App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                    [$alur['role_name']] 
+                                                                    ) 
+                                                                        <input class="form-control m-0" type="date" wire:model.live="plan_transfer">
+                                                                @else
+                                                                    {{$plan_transfer}}
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="d-flex justify-content-center">
+                                                        @if(
+                                                        Auth::user()->roles[0]->name == 
+                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                        [$alur['role_name']] 
+                                                        && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                        ) 
                                                             <input 
-                                                            class="form-check-input" type="checkbox" disabled style="border: 1px solid #D9CFC7" checked>
-                                                        </td>
-                                                        <td>
-                                                            <h3 class="text-danger">Klik untuk melihat detail</h3>
-                                                        </td>
-                                                        <td>
-                                                            @if(Auth::user()->roles[0]->name == 
+                                                            class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
+                                                        @else 
+                                                            <input 
+                                                            class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-status-done'}}">{{$alur_proseses[$index_alur]['tanggal_update']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
+                                                    </td>
+                                                    <td>
+                                                        @if(Auth::user()->roles[0]->name == 
                                                             App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']])
-                                                                <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
-                                                            @else
-                                                                <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
-                                                            @endIf
-                                                        </td>
-                                                    </tr>
-                                                    {{-- COLLAPSE DATA SALAH TRANSFER --}}
-                                                    <tr wire:key="alur-detail-{{$index_alur}}">
-                                                        <td colspan="100" class="p-0 border-0">
+                                                            [$alur['role_name']]
+                                                            &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                            )
+                                                            <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                        @else
+                                                            <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                        @endIf
+                                                    </td>
+                                                </tr>
+                                                @break
+                                            @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_INFO_REK_SALAH)
+                                                @php
+                                                    $nomor_urut ++;
+                                                @endphp
+                                                <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
+                                                    data-bs-target="#data-salah-transfer" wire:click="getDataSalahTransfer" style="cursor: pointer;">
+                                                    <td>{{$nomor_urut}}</td>
+                                                    <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                    <td>{{$alur['name']}}</td>
+                                                    <td class="d-flex justify-content-center">
+                                                        <input 
+                                                        class="form-check-input" type="checkbox" disabled style="border: 1px solid #D9CFC7" checked>
+                                                    </td>
+                                                    <td>
+                                                        <h3 class="text-danger">Klik untuk melihat detail</h3>
+                                                    </td>
+                                                    <td>
+                                                        @if(Auth::user()->roles[0]->name == 
+                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                        [$alur['role_name']])
+                                                            <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                        @else
+                                                            <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                        @endIf
+                                                    </td>
+                                                </tr>
+                                                {{-- COLLAPSE DATA SALAH TRANSFER --}}
+                                                <tr wire:key="alur-detail-{{$index_alur}}">
+                                                    <td colspan="100" class="p-0 border-0">
 
-                                                            <div
-                                                                id="data-salah-transfer"
-                                                                class="collapse auto-close-collapse"
-                                                                wire:ignore.self
-                                                            >
-                                                                <div class="p-3 bg-light">
-                                                                    <div class="row">
-                                                                        
-                                                                    {{-- BUTTON --}}
+                                                        <div
+                                                            id="data-salah-transfer"
+                                                            class="collapse auto-close-collapse"
+                                                            wire:ignore.self
+                                                        >
+                                                            <div class="p-3 bg-light">
+                                                                <div class="row">
+                                                                    
+                                                                {{-- BUTTON --}}
+                                                                <form wire:submit.prevent="saveDataSalahTransfer">
                                                                     @if(Auth::user()->roles[0]->name == 
                                                                     App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
                                                                     [App\Models\AlurPencairan\AlurPencairan::ROLE_FINANCE])
@@ -197,139 +200,139 @@
                                                                         </div>
                                                                     @endif
                                                                         
-                                                                        <table class="table table-sm table-no-bg">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th class="text-center fs-4 fw-bold">No</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Rekening Lama</th>
-                                                                                    <th class="text-center fs-4 fw-bold">No Input Japan</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Nama Lengkap</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Tgl Lahir</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Nominal Cair</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Aksi</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                @foreach ($data_salah_transfers as $index_data_salah_transfer => $tranfer)
-                                                                                @if(Auth::user()->roles[0]->name == 
-                                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                                                [App\Models\AlurPencairan\AlurPencairan::ROLE_FINANCE])
-                                                                                    <tr wire:key="data-salah-transfer-{{$index_data_salah_transfer}}">
-                                                                                        <td rowspan="2">
-                                                                                            <p class="">{{ $loop->iteration }}</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="row d-flex justify-content-between gap-0">
-                                                                                                <div class="col mx-0 px-0">
-                                                                                                    <input type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.rekening_lama" placeholder="Rekening Lama" class="form-control mx-0 px-1">
-                                                                                                </div>
-                                                                                                <div class="col-md-4 mx-0 px-0">
-                                                                                                    <select wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.jenis_rekening_lama" class="form-select">
-                                                                                                        @foreach (App\Models\AlurPencairan\AlurPencairanDetail::JENIS_REKENING_CHOICE as $key => $name)    
-                                                                                                            <option value="{{$name}}">{{$name}}</option>
-                                                                                                        @endforeach
-                                                                                                    </select>
-                                                                                                </div>
+                                                                    <table class="table table-sm table-no-bg">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center fs-4 fw-bold">No</th>
+                                                                                <th class="text-center fs-4 fw-bold">Rekening Lama</th>
+                                                                                <th class="text-center fs-4 fw-bold">No Input Japan</th>
+                                                                                <th class="text-center fs-4 fw-bold">Nama Lengkap</th>
+                                                                                <th class="text-center fs-4 fw-bold">Tgl Lahir</th>
+                                                                                <th class="text-center fs-4 fw-bold">Nominal Cair</th>
+                                                                                <th class="text-center fs-4 fw-bold">Aksi</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach ($data_salah_transfers as $index_data_salah_transfer => $tranfer)
+                                                                            @if(Auth::user()->roles[0]->name == 
+                                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                            [App\Models\AlurPencairan\AlurPencairan::ROLE_FINANCE])
+                                                                                <tr wire:key="data-salah-transfer-{{$index_data_salah_transfer}}">
+                                                                                    <td rowspan="2">
+                                                                                        <p class="">{{ $loop->iteration }}</p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="row d-flex justify-content-between gap-0">
+                                                                                            <div class="col mx-0 px-0">
+                                                                                                <input type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.rekening_lama" placeholder="Rekening Lama" class="form-control mx-0 px-1">
                                                                                             </div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input placeholder="No input Jepang" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.no_input_jepang" class="form-control">
-                                                                            
-                                                                                            @error('data_salah_transfers.{{$index_data_salah_transfer}}.no_input_jepang')
-                                                                                                <div class="text-danger">{{ $message }}</div>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input placeholder="Nama Lengkap" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.nama_lengkap" class="form-control">
-                                                                            
-                                                                                            @error('data_salah_transfers.{{$index_data_salah_transfer}}.nama_lengkap')
-                                                                                                <div class="text-danger">{{ $message }}</div>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input placeholder="Tanggal Lahir" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_lahir_input" class="form-control">
-                                                                            
-                                                                                            @error('data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_lahir_input')
-                                                                                                <div class="text-danger">{{ $message }}</div>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="row d-flex justify-content-between gap-0">
-                                                                                                <div class="col mx-0 px-0">
-                                                                                                    <input placeholder="Nominal Cair" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.nominal_cair" class="form-control currency" max="999999999999999">
-                                                                                                </div>
-                                                                                                <div class="col-md-6 mx-0 px-0">
-                                                                                                    <select wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.mata_uang" class="form-select">
-                                                                                                        @foreach (App\Models\AlurPencairan\AlurPencairanDetail::MATA_UANG_CHOICE as $key => $name)    
-                                                                                                            <option value="{{$name}}">{{$name}}</option>
-                                                                                                        @endforeach
-                                                                                                    </select>
-                                                                                                </div>
+                                                                                            <div class="col-md-4 mx-0 px-0">
+                                                                                                <select wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.jenis_rekening_lama" class="form-select">
+                                                                                                    @foreach (App\Models\AlurPencairan\AlurPencairanDetail::JENIS_REKENING_CHOICE as $key => $name)    
+                                                                                                        <option value="{{$name}}">{{$name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
                                                                                             </div>
-                                                                                            @error('data_salah_transfers.{{$index_data_salah_transfer}}.nominal_cair')
-                                                                                                <div class="text-danger">{{ $message }}</div>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @if (!$data_salah_transfers[$index_data_salah_transfer]['id'])
-                                                                                                
-                                                                                                <button type="button" wire:loading.attr="disabled" class="btn btn-danger" wire:click="removeDataTransfer('{{$index_data_salah_transfer}}')">
-                                                                                                    <i class="ki-duotone ki-trash fs-1">
-                                                                                                        <span class="path1"></span>
-                                                                                                        <span class="path2"></span>
-                                                                                                        <span class="path3"></span>
-                                                                                                        <span class="path4"></span>
-                                                                                                        <span class="path5"></span>
-                                                                                                    </i>
-                                                                                                </button>
-                                                                                            @endif
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr wire:key="keterangan-data-salah-transfer-{{$index_data_salah_transfer}}">
-                                                                                        <td colspan="6">
-                                                                                            <input placeholder="Keterangan" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.keterangan" class="form-control">
-                                                                                                @if ( $data_salah_transfers[$index_data_salah_transfer]['id'])
-                                                                                                <p class="form-text mb-0 pb-0 text-info">Dibuat oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['creator_name'] }}</p>
-                                                                                            @endif
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @else
-
-                                                                                    <tr wire:key="data-salah-transfer-{{$index_data_salah_transfer}}">
-                                                                                        <td rowspan="2">
-                                                                                            <p class="">
-                                                                                                {{ $loop->iteration }}
-                                                                                            </p>
-                                                                                        </td>
-                                                                                            <td class="text-center">{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td>
-
-                                                                                            <td>{{$tranfer['no_input_jepang']}}</td>
-
-                                                                                            <td>{{$tranfer['nama_lengkap']}}</td>
-
-                                                                                            <td>{{$tranfer['tanggal_lahir']}}</td>
-
-                                                                                            <td class="text-start">@currency($tranfer['nominal_cair']) ({{$tranfer['mata_uang']}})</td>
-                                                                                        <td>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input placeholder="No input Jepang" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.no_input_jepang" class="form-control">
+                                                                        
+                                                                                        @error('data_salah_transfers.{{$index_data_salah_transfer}}.no_input_jepang')
+                                                                                            <div class="text-danger">{{ $message }}</div>
+                                                                                        @enderror
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input placeholder="Nama Lengkap" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.nama_lengkap" class="form-control">
+                                                                        
+                                                                                        @error('data_salah_transfers.{{$index_data_salah_transfer}}.nama_lengkap')
+                                                                                            <div class="text-danger">{{ $message }}</div>
+                                                                                        @enderror
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input placeholder="Tanggal Lahir" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_lahir_input" class="form-control">
+                                                                        
+                                                                                        @error('data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_lahir_input')
+                                                                                            <div class="text-danger">{{ $message }}</div>
+                                                                                        @enderror
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="row d-flex justify-content-between gap-0">
+                                                                                            <div class="col mx-0 px-0">
+                                                                                                <input placeholder="Nominal Cair" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.nominal_cair" class="form-control currency" max="999999999999999">
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mx-0 px-0">
+                                                                                                <select wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.mata_uang" class="form-select">
+                                                                                                    @foreach (App\Models\AlurPencairan\AlurPencairanDetail::MATA_UANG_CHOICE as $key => $name)    
+                                                                                                        <option value="{{$name}}">{{$name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @error('data_salah_transfers.{{$index_data_salah_transfer}}.nominal_cair')
+                                                                                            <div class="text-danger">{{ $message }}</div>
+                                                                                        @enderror
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @if (!$data_salah_transfers[$index_data_salah_transfer]['id'])
                                                                                             
-                                                                                        </td>
-                                                                                    </tr>
+                                                                                            <button type="button" wire:loading.attr="disabled" class="btn btn-danger" wire:click="removeDataTransfer('{{$index_data_salah_transfer}}')">
+                                                                                                <i class="ki-duotone ki-trash fs-1">
+                                                                                                    <span class="path1"></span>
+                                                                                                    <span class="path2"></span>
+                                                                                                    <span class="path3"></span>
+                                                                                                    <span class="path4"></span>
+                                                                                                    <span class="path5"></span>
+                                                                                                </i>
+                                                                                            </button>
+                                                                                        @endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr wire:key="keterangan-data-salah-transfer-{{$index_data_salah_transfer}}">
+                                                                                    <td colspan="6">
+                                                                                        <input placeholder="Keterangan" type="text" wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.keterangan" class="form-control">
+                                                                                            @if ( $data_salah_transfers[$index_data_salah_transfer]['id'])
+                                                                                            <p class="form-text mb-0 pb-0 text-info">Dibuat oleh: {{ $data_salah_transfers[$index_data_salah_transfer]['creator_name'] }}</p>
+                                                                                        @endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @else
 
-                                                                                    <tr wire:key="keterangan-data-salah-transfer-{{$index_data_salah_transfer}}">
-                                                                                        <td colspan="6">
-                                                                                            <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
-                                                                                            @if($tranfer['id'])
-                                                                                                <div class="form-text text-info my-0 py-0">
-                                                                                                    Dibuat oleh:
-                                                                                                    {{ $data_salah_transfers[$index_data_salah_transfer]['creator_name'] }}
-                                                                                                </div>
-                                                                                            @endif
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endif
-                                                                                @endforeach
-                                                                            </tbody>
-                                                                        </table>
+                                                                                <tr wire:key="data-salah-transfer-{{$index_data_salah_transfer}}">
+                                                                                    <td rowspan="2">
+                                                                                        <p class="">
+                                                                                            {{ $loop->iteration }}
+                                                                                        </p>
+                                                                                    </td>
+                                                                                        <td class="text-center">{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td>
+
+                                                                                        <td>{{$tranfer['no_input_jepang']}}</td>
+
+                                                                                        <td>{{$tranfer['nama_lengkap']}}</td>
+
+                                                                                        <td>{{$tranfer['tanggal_lahir']}}</td>
+
+                                                                                        <td class="text-start">@currency($tranfer['nominal_cair']) ({{$tranfer['mata_uang']}})</td>
+                                                                                    <td>
+                                                                                        
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <tr wire:key="keterangan-data-salah-transfer-{{$index_data_salah_transfer}}">
+                                                                                    <td colspan="6">
+                                                                                        <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
+                                                                                        @if($tranfer['id'])
+                                                                                            <div class="form-text text-info my-0 py-0">
+                                                                                                Dibuat oleh:
+                                                                                                {{ $data_salah_transfers[$index_data_salah_transfer]['creator_name'] }}
+                                                                                            </div>
+                                                                                        @endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endif
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
                                                                     
                                                                         <div class="col-auto mb-3">
                                                                             @if(Auth::user()->roles[0]->name == 
@@ -343,369 +346,373 @@
                                                                                 </button>
                                                                             @endif
                                                                         </div>
-                                                                    </div>
+                                                                    </form>
                                                                 </div>
-                                                                
                                                             </div>
+                                                            
+                                                        </div>
 
-                                                        </td>
-                                                    </tr>
-                                                    @break
-                                                @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_MELENGKAPI_REK_SALAH)
-                                                    @php
-                                                        $nomor_urut ++;
-                                                    @endphp
-                                                    <tr wire:key="alur-proses-{{$index_alur}}"  data-bs-toggle="collapse"
-                                                        data-bs-target="#melengkapi-rekening-salah" wire:click="getDataSalahTransfer" style="cursor: pointer;">
-                                                        <td>{{$nomor_urut}}</td>
-                                                        <td>{{$alur['role_name']}}</td> 
-                                                        <td>{{$alur['name']}}</td>
-                                                        <td class="d-flex justify-content-center">
-                                                            @if ($jumlah_belum_melengkapi_rekening_salah)
-                                                                <h3 class="text-danger"> ({{$jumlah_belum_melengkapi_rekening_salah}})</h3>
-                                                            @else
-                                                                <input class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <h3 class="text-danger">Klik untuk melihat detail</h3>
-                                                        </td>
-                                                        <td>
-                                                            @if(Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']])
-                                                                <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
-                                                            @else
-                                                                <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
-                                                            @endIf
-                                                        </td>
-                                                    </tr>
-                                                    {{-- COLLAPSE MELENGKAPI REKENING SALAH --}}
-                                                    <tr wire:key="alur-detail-{{$index_alur}}">
-                                                        <td colspan="100" class="p-0 border-0">
+                                                    </td>
+                                                </tr>
+                                                @break
+                                            @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_MELENGKAPI_REK_SALAH)
+                                                @php
+                                                    $nomor_urut ++;
+                                                @endphp
+                                                <tr wire:key="alur-proses-{{$index_alur}}"  data-bs-toggle="collapse"
+                                                    data-bs-target="#melengkapi-rekening-salah" wire:click="getDataSalahTransfer" style="cursor: pointer;">
+                                                    <td>{{$nomor_urut}}</td>
+                                                    <td>{{$alur['role_name']}}</td> 
+                                                    <td>{{$alur['name']}}</td>
+                                                    <td class="d-flex justify-content-center">
+                                                        @if ($jumlah_belum_melengkapi_rekening_salah)
+                                                            <h3 class="text-danger"> ({{$jumlah_belum_melengkapi_rekening_salah}})</h3>
+                                                        @else
+                                                            <input class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <h3 class="text-danger">Klik untuk melihat detail</h3>
+                                                    </td>
+                                                    <td>
+                                                        @if(Auth::user()->roles[0]->name == 
+                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                        [$alur['role_name']])
+                                                            <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                        @else
+                                                            <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                        @endIf
+                                                    </td>
+                                                </tr>
+                                                {{-- COLLAPSE MELENGKAPI REKENING SALAH --}}
+                                                <tr wire:key="alur-detail-{{$index_alur}}">
+                                                    <td colspan="100" class="p-0 border-0">
 
-                                                            <div
-                                                                id="melengkapi-rekening-salah"
-                                                                class="collapse auto-close-collapse"
-                                                                wire:ignore.self
-                                                            >
-                                                                <div class="p-3 bg-light">
-                                                                    <div class="row">
-                                                                        
+                                                        <div
+                                                            id="melengkapi-rekening-salah"
+                                                            class="collapse auto-close-collapse"
+                                                            wire:ignore.self
+                                                        >
+                                                            <div class="p-3 bg-light">
+                                                                <div class="row">
+                                                                    
                                                                     {{-- BUTTON --}}
+                                                                    <form wire:submit.prevent="saveMelengkapiRekeningSalah">
                                                                     @if(Auth::user()->roles[0]->name ==
                                                                         App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
                                                                         [App\Models\AlurPencairan\AlurPencairan::ROLE_HS])
-
-                                                                        <div class="mb-3">
-                                                                            <button
-                                                                                type="button"
-                                                                                class="btn btn-success"
-                                                                                wire:click="saveMelengkapiRekeningSalah"
-                                                                                wire:loading.attr="disabled"
-                                                                            >
-                                                                                Simpan
-                                                                            </button>
-                                                                        </div>
-
-                                                                    @endif
-                                                                        
-                                                                        <table class="table table-sm table-no-bg">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th class="text-center fs-4 fw-bold">No</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Rekening Terbaru</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Rekening Lama</th>
-                                                                                    <th class="text-center fs-4 fw-bold">No Input Jepang</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Nama Lengkap</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Tgl Lahir</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Nominal Cair</th>
-                                                                                </tr>
-                                                                            </thead>
-
-                                                                            <tbody>
-
-                                                                            @foreach ($data_salah_transfers as $index_data_salah_transfer => $tranfer)
-
-                                                                                <tr wire:key="transfer-{{$index_data_salah_transfer}}">
-
-                                                                                    <td rowspan="2">{{$loop->iteration}}</td>
-
-                                                                                    <td>
-                                                                                        @if(Auth::user()->roles[0]->name == 
-                                                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                                                        [App\Models\AlurPencairan\AlurPencairan::ROLE_HS])
-
-                                                                                            <div class="d-flex gap-0 p-0 m-0">
-                                                                                                <input
-                                                                                                    type="text"
-                                                                                                    class="px-0 py-1 m-0 form-control
-                                                                                                    {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_terbaru'] ? '' : 'is-invalid' }}"
-                                                                                                    style="width: 300px;"
-                                                                                                    wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.rekening_terbaru"
-                                                                                                    
-                                                                                                >
-
-                                                                                                <select
-                                                                                                    class="px-0 py-1 m-0 form-select" style="width: 120px;"
-                                                                                                    wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.jenis_rekening_terbaru"
-                                                                                                >
-                                                                                                    @foreach(App\Models\AlurPencairan\AlurPencairanDetail::JENIS_REKENING_CHOICE as $name)
-                                                                                                        <option value="{{$name}}">{{$name}}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        @else
-                                                                                            <p class="text-center">{{$tranfer['rekening_terbaru'] ? $tranfer['rekening_terbaru'] ." ( ".$tranfer['jenis_rekening_terbaru']." )" : "-"}}</p>
-
-                                                                                        @endif
-                                                                                    </td>
-
-                                                                                    {{-- <td>{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td> --}}
-                                                                                    <td>{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td>
-
-                                                                                    <td>{{$tranfer['no_input_jepang']}}</td>
-
-                                                                                    <td>{{$tranfer['nama_lengkap']}}</td>
-
-                                                                                    <td>{{$tranfer['tanggal_lahir']}}</td>
-
-                                                                                    <td>@currency($tranfer['nominal_cair']) ({{$tranfer['mata_uang']}})</td>
-
-                                                                                </tr>
-
-
-                                                                                <tr wire:key="transfer-ket-{{$index_data_salah_transfer}}">
-                                                                                    <td colspan="6" class="my-0 py-0">
-                                                                                       <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
-
-                                                                                        @if($tranfer['updator_rekening_terbaru_name'])
-                                                                                            <div class="form-text text-info my-0 py-0">
-                                                                                                Diupdate oleh:
-                                                                                                {{$tranfer['updator_rekening_terbaru_name']}}
-                                                                                                , pada:
-                                                                                                {{$tranfer['rekening_terbaru_updated_at']}}
-                                                                                            </div>
-                                                                                        @endif
-
-                                                                                    </td>
-                                                                                </tr>
-
-                                                                            @endforeach
-
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                    @break
-                                                @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_TRANSFER_SUSULAN)
-                                                    @php
-                                                        $nomor_urut ++;
-                                                    @endphp
-                                                    <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
-                                                        data-bs-target="#transfer-susulan" wire:click="getDataSalahTransfer" style="cursor: pointer;">
-                                                        <td>{{$nomor_urut}}</td>
-                                                        <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
-                                                        <td>{{$alur['name']}}</td>
-                                                        <td class="d-flex justify-content-center">
-                                                            @if ($jumlah_belum_transfer_susulan)
-                                                                <h3 class="text-danger"> ({{$jumlah_belum_transfer_susulan}})</h3>
-                                                            @else
-                                                                <input class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <h3 class="text-danger">Klik untuk melihat detail</h3>
-                                                        </td>
-                                                        <td>
-                                                            @if(Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']])
-                                                                <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
-                                                            @else
-                                                                <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
-                                                            @endIf
-                                                        </td>
-                                                    </tr>
-                                                    {{-- COLLAPSE TRANSFER SUSULAN --}}
-                                                    <tr wire:key="alur-detail-{{$index_alur}}">
-                                                        <td colspan="100" class="p-0 border-0">
-
-                                                            <div
-                                                                id="transfer-susulan"
-                                                                class="collapse auto-close-collapse"
-                                                                wire:ignore.self
-                                                            >
-                                                                <div class="p-3 bg-light">
-                                                                    <div class="row">
-                                                                        @if(Auth::user()->roles[0]->name == 
-                                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                                        [App\Models\AlurPencairan\AlurPencairan::ROLE_PAK_NOVI])
-                                                                            <div class="col-auto mb-3">
-                                                                                <button type="button" wire:loading.attr="disabled" class="btn btn-success mt-3" wire:click="saveTransferSusulan">
+                                                                            <div class="mb-3">
+                                                                                <button
+                                                                                    type="submit"
+                                                                                    class="btn btn-success"
+                                                                                    wire:click="saveMelengkapiRekeningSalah"
+                                                                                    wire:loading.attr="disabled"
+                                                                                >
                                                                                     Simpan
                                                                                 </button>
                                                                             </div>
-                                                                        @endif
+                                                                        
 
-                                                                        <table class="table table-sm table-no-bg">
-                                                                            <thead>
+                                                                    @endif
+                                                                    
+                                                                    <table class="table table-sm table-no-bg">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center fs-4 fw-bold">No</th>
+                                                                                <th class="text-center fs-4 fw-bold">Rekening Terbaru</th>
+                                                                                <th class="text-center fs-4 fw-bold">Rekening Lama</th>
+                                                                                <th class="text-center fs-4 fw-bold">No Input Jepang</th>
+                                                                                <th class="text-center fs-4 fw-bold">Nama Lengkap</th>
+                                                                                <th class="text-center fs-4 fw-bold">Tgl Lahir</th>
+                                                                                <th class="text-center fs-4 fw-bold">Nominal Cair</th>
+                                                                            </tr>
+                                                                        </thead>
 
-                                                                                <tr>
-                                                                                    <th class="text-center fs-4 fw-bold">No</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Tgl transfer</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Rekening Terbaru</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Rekening Lama</th>
-                                                                                    <th class="text-center fs-4 fw-bold">No Input Japan</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Nama Lengkap</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Tgl Lahir</th>
-                                                                                    <th class="text-center fs-4 fw-bold">Nominal Cair</th>
-                                                                                </tr>
-                                                                            </thead>
+                                                                        <tbody>
 
-                                                                            <tbody>
+                                                                        @foreach ($data_salah_transfers as $index_data_salah_transfer => $tranfer)
 
-                                                                            @foreach ($data_salah_transfers as $index_data_salah_transfer => $tranfer)
-                                                                                
+                                                                            <tr wire:key="transfer-{{$index_data_salah_transfer}}">
 
-                                                                                <tr wire:key="transfer-susulan-{{$index_data_salah_transfer}}">
+                                                                                <td rowspan="2">{{$loop->iteration}}</td>
 
-                                                                                    <td rowspan="2">{{$loop->iteration}}</td>
+                                                                                <td>
+                                                                                    @if(Auth::user()->roles[0]->name == 
+                                                                                    App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                                    [App\Models\AlurPencairan\AlurPencairan::ROLE_HS])
 
-                                                                                    <td>
-                                                                                        @if(Auth::user()->roles[0]->name == 
-                                                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                                                            [App\Models\AlurPencairan\AlurPencairan::ROLE_PAK_NOVI])
-
-                                                                                            <div class="d-flex gap-0 p-0 m-0">
-                                                                                                <input placeholder="Tgl Transfer" type="date" 
-                                                                                                wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer" 
-                                                                                                class="form-control mb-0 {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ? '' : 'is-invalid' }}">
+                                                                                        <div class="d-flex gap-0 p-0 m-0">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                class="px-0 py-1 m-0 form-control
+                                                                                                {{ $data_salah_transfers[$index_data_salah_transfer]['rekening_terbaru'] ? '' : 'is-invalid' }}"
+                                                                                                style="width: 300px;"
+                                                                                                wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.rekening_terbaru"
                                                                                                 
-                                                                                                @error('data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer')
-                                                                                                    <div class="text-danger">{{ $message }}</div>
-                                                                                                @enderror
-                                                                                            </div>
-                                                                                        @else
-                                                                                            <p class="my-0 py-0 fs-5 fw-bold text-center">
-                                                                                                {{$tranfer['tanggal_transfer'] ? $tranfer['tanggal_transfer'] : "-"}}
-                                                                                            </p>
+                                                                                            >
 
-                                                                                        @endif
-                                                                                    </td>
+                                                                                            <select
+                                                                                                class="px-0 py-1 m-0 form-select" style="width: 120px;"
+                                                                                                wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.jenis_rekening_terbaru"
+                                                                                            >
+                                                                                                @foreach(App\Models\AlurPencairan\AlurPencairanDetail::JENIS_REKENING_CHOICE as $name)
+                                                                                                    <option value="{{$name}}">{{$name}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    @else
+                                                                                        <p class="text-center">{{$tranfer['rekening_terbaru'] ? $tranfer['rekening_terbaru'] ." ( ".$tranfer['jenis_rekening_terbaru']." )" : "-"}}</p>
 
-                                                                                    <td>{{$tranfer['rekening_terbaru'] ? $tranfer['rekening_terbaru'] ."( ".$tranfer['jenis_rekening_terbaru']." )" : '-'}}</td>
+                                                                                    @endif
+                                                                                </td>
 
-                                                                                    <td>{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td>
+                                                                                {{-- <td>{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td> --}}
+                                                                                <td>{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td>
 
-                                                                                    <td>{{$tranfer['no_input_jepang']}}</td>
+                                                                                <td>{{$tranfer['no_input_jepang']}}</td>
 
-                                                                                    <td>{{$tranfer['nama_lengkap']}}</td>
+                                                                                <td>{{$tranfer['nama_lengkap']}}</td>
 
-                                                                                    <td>{{$tranfer['tanggal_lahir']}}</td>
+                                                                                <td>{{$tranfer['tanggal_lahir']}}</td>
 
-                                                                                    <td>@currency($tranfer['nominal_cair']) ({{$tranfer['mata_uang']}})</td>
+                                                                                <td>@currency($tranfer['nominal_cair']) ({{$tranfer['mata_uang']}})</td>
 
-                                                                                </tr>
+                                                                            </tr>
 
 
-                                                                                <tr wire:key="transfer-susulan-ket-{{$index_data_salah_transfer}}">
-                                                                                    <td colspan="7" class="my-0 py-0">
-                                                                                        <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
+                                                                            <tr wire:key="transfer-ket-{{$index_data_salah_transfer}}">
+                                                                                <td colspan="6" class="my-0 py-0">
+                                                                                <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
 
-                                                                                        @if($tranfer['updator_tanggal_transfer_name'])
-                                                                                            <div class="form-text text-info my-0 py-0">
-                                                                                                Diupdate oleh:
-                                                                                                {{$tranfer['updator_tanggal_transfer_name']}}
-                                                                                                , pada:
-                                                                                                {{$tranfer['tanggal_transfer_updated_at']}}
-                                                                                            </div>
-                                                                                        @endif
+                                                                                    @if($tranfer['updator_rekening_terbaru_name'])
+                                                                                        <div class="form-text text-info my-0 py-0">
+                                                                                            Diupdate oleh:
+                                                                                            {{$tranfer['updator_rekening_terbaru_name']}}
+                                                                                            , pada:
+                                                                                            {{$tranfer['rekening_terbaru_updated_at']}}
+                                                                                        </div>
+                                                                                    @endif
 
-                                                                                    </td>
-                                                                                </tr>
+                                                                                </td>
+                                                                            </tr>
 
-                                                                            @endforeach
+                                                                        @endforeach
 
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    </form>
                                                                 </div>
-                                                                
                                                             </div>
+                                                            
+                                                        </div>
 
-                                                        </td>
-                                                    </tr>
-                                                    @break
-                                                @default
+                                                    </td>
+                                                </tr>
+                                                @break
+                                            @case(App\Models\AlurPencairan\AlurProsesDetail::KEY_TRANSFER_SUSULAN)
                                                 @php
-                                                    if($alur['is_multi']){
-                                                        if(!in_array($alur['name'], $array_nomor)){
-                                                            $nomor_urut ++;
-                                                            $array_nomor[] = $alur['name'];
-                                                        }
-                                                    }else{
-                                                        $nomor_urut ++;
-                                                    }
+                                                    $nomor_urut ++;
                                                 @endphp
-                                                @if (
-                                                empty(json_decode($alur['role_can_show'])) ||
-                                                (!empty(json_decode($alur['role_can_show'])) && in_array(Auth::user()->roles[0]->name, json_decode($alur['role_can_show'])))
-                                                )
-                                                    <tr wire:key="alur-proses-{{$index_alur}}">
-                                                        {{-- <td>{{$loop->iteration}}</td> --}}
-                                                        <td>{{$nomor_urut}}</td>
-                                                        <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
-                                                        <td>{{$alur['name']}}</td>
-                                                        <td class="d-flex justify-content-center">
-                                                            @if(
-                                                                Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']] 
-                                                            && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
-                                                            && ($alur['by_user'] && $alur['user_id'] == Auth::user()->id || !$alur['by_user'])
-                                                            ) 
-                                                                <input 
-                                                                class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
-                                                            @else 
-                                                                <input 
-                                                                class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-status-done'}}">{{$alur_proseses[$index_alur]['status_updated_at']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
-                                                        </td>
-                                                        <td>
-                                                            @if(Auth::user()->roles[0]->name == 
-                                                            App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                            [$alur['role_name']]
-                                                            &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
-                                                            )
-                                                                <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
-                                                            @else
-                                                                <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
-                                                            @endIf
-                                                        </td>
-                                                    </tr>  
-                                                @endif
-                                            @endswitch
+                                                <tr wire:key="alur-proses-{{$index_alur}}" data-bs-toggle="collapse"
+                                                    data-bs-target="#transfer-susulan" wire:click="getDataSalahTransfer" style="cursor: pointer;">
+                                                    <td>{{$nomor_urut}}</td>
+                                                    <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                    <td>{{$alur['name']}}</td>
+                                                    <td class="d-flex justify-content-center">
+                                                        @if ($jumlah_belum_transfer_susulan)
+                                                            <h3 class="text-danger"> ({{$jumlah_belum_transfer_susulan}})</h3>
+                                                        @else
+                                                            <input class="form-check-input" type="checkbox" checked disabled style="border: 1px solid #D9CFC7">
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <h3 class="text-danger">Klik untuk melihat detail</h3>
+                                                    </td>
+                                                    <td>
+                                                        @if(Auth::user()->roles[0]->name == 
+                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                        [$alur['role_name']])
+                                                            <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                        @else
+                                                            <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                        @endIf
+                                                    </td>
+                                                </tr>
+                                                {{-- COLLAPSE TRANSFER SUSULAN --}}
+                                                <tr wire:key="alur-detail-{{$index_alur}}">
+                                                    <td colspan="100" class="p-0 border-0">
 
-                                        @endforeach
-                                    </tbody>
-                                @endif
-                            </table>
-                        </div>
+                                                        <div
+                                                            id="transfer-susulan"
+                                                            class="collapse auto-close-collapse"
+                                                            wire:ignore.self
+                                                        >
+                                                            <div class="p-3 bg-light">
+                                                                <form wire:submit.prevent="saveTransferSusulan">
+                                                                <div class="row">
+                                                                    @if(Auth::user()->roles[0]->name == 
+                                                                    App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                    [App\Models\AlurPencairan\AlurPencairan::ROLE_PAK_NOVI])
+                                                                        <div class="col-auto mb-3">
+                                                                            <button type="submit" wire:loading.attr="disabled" class="btn btn-success mt-3" wire:click="saveTransferSusulan">
+                                                                                Simpan
+                                                                            </button>
+                                                                        </div>
+                                                                    @endif
+
+                                                                    <table class="table table-sm table-no-bg">
+                                                                        <thead>
+
+                                                                            <tr>
+                                                                                <th class="text-center fs-4 fw-bold">No</th>
+                                                                                <th class="text-center fs-4 fw-bold">Tgl transfer</th>
+                                                                                <th class="text-center fs-4 fw-bold">Rekening Terbaru</th>
+                                                                                <th class="text-center fs-4 fw-bold">Rekening Lama</th>
+                                                                                <th class="text-center fs-4 fw-bold">No Input Japan</th>
+                                                                                <th class="text-center fs-4 fw-bold">Nama Lengkap</th>
+                                                                                <th class="text-center fs-4 fw-bold">Tgl Lahir</th>
+                                                                                <th class="text-center fs-4 fw-bold">Nominal Cair</th>
+                                                                            </tr>
+                                                                        </thead>
+
+                                                                        <tbody>
+
+                                                                        @foreach ($data_salah_transfers as $index_data_salah_transfer => $tranfer)
+                                                                            
+
+                                                                            <tr wire:key="transfer-susulan-{{$index_data_salah_transfer}}">
+
+                                                                                <td rowspan="2">{{$loop->iteration}}</td>
+
+                                                                                <td>
+                                                                                    @if(Auth::user()->roles[0]->name == 
+                                                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                                        [App\Models\AlurPencairan\AlurPencairan::ROLE_PAK_NOVI])
+
+                                                                                        <div class="d-flex gap-0 p-0 m-0">
+                                                                                            <input placeholder="Tgl Transfer" type="date" 
+                                                                                            wire:model="data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer" 
+                                                                                            class="form-control mb-0 {{ $data_salah_transfers[$index_data_salah_transfer]['tanggal_transfer'] ? '' : 'is-invalid' }}">
+                                                                                            
+                                                                                            @error('data_salah_transfers.{{$index_data_salah_transfer}}.tanggal_transfer')
+                                                                                                <div class="text-danger">{{ $message }}</div>
+                                                                                            @enderror
+                                                                                        </div>
+                                                                                    @else
+                                                                                        <p class="my-0 py-0 fs-5 fw-bold text-center">
+                                                                                            {{$tranfer['tanggal_transfer'] ? $tranfer['tanggal_transfer'] : "-"}}
+                                                                                        </p>
+
+                                                                                    @endif
+                                                                                </td>
+
+                                                                                <td>{{$tranfer['rekening_terbaru'] ? $tranfer['rekening_terbaru'] ."( ".$tranfer['jenis_rekening_terbaru']." )" : '-'}}</td>
+
+                                                                                <td>{{$tranfer['rekening_lama']}} ({{$tranfer['jenis_rekening_lama']}})</td>
+
+                                                                                <td>{{$tranfer['no_input_jepang']}}</td>
+
+                                                                                <td>{{$tranfer['nama_lengkap']}}</td>
+
+                                                                                <td>{{$tranfer['tanggal_lahir']}}</td>
+
+                                                                                <td>@currency($tranfer['nominal_cair']) ({{$tranfer['mata_uang']}})</td>
+
+                                                                            </tr>
+
+
+                                                                            <tr wire:key="transfer-susulan-ket-{{$index_data_salah_transfer}}">
+                                                                                <td colspan="7" class="my-0 py-0">
+                                                                                    <p class="text-dark my-0 py-0">Keterangan: <span class="text-danger">{{$tranfer['keterangan']}}</span></p>
+
+                                                                                    @if($tranfer['updator_tanggal_transfer_name'])
+                                                                                        <div class="form-text text-info my-0 py-0">
+                                                                                            Diupdate oleh:
+                                                                                            {{$tranfer['updator_tanggal_transfer_name']}}
+                                                                                            , pada:
+                                                                                            {{$tranfer['tanggal_transfer_updated_at']}}
+                                                                                        </div>
+                                                                                    @endif
+
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        @endforeach
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                @break
+                                            @default
+                                            @php
+                                                if($alur['is_multi']){
+                                                    if(!in_array($alur['name'], $array_nomor)){
+                                                        $nomor_urut ++;
+                                                        $array_nomor[] = $alur['name'];
+                                                    }
+                                                }else{
+                                                    $nomor_urut ++;
+                                                }
+                                            @endphp
+                                            @if (
+                                            empty(json_decode($alur['role_can_show'])) ||
+                                            (!empty(json_decode($alur['role_can_show'])) && in_array(Auth::user()->roles[0]->name, json_decode($alur['role_can_show'])))
+                                            )
+                                                <tr wire:key="alur-proses-{{$index_alur}}">
+                                                    {{-- <td>{{$loop->iteration}}</td> --}}
+                                                    <td>{{$nomor_urut}}</td>
+                                                    <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                    <td>{{$alur['name']}}</td>
+                                                    <td class="d-flex justify-content-center">
+                                                        @if(
+                                                            Auth::user()->roles[0]->name == 
+                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                        [$alur['role_name']] 
+                                                        && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                        && ($alur['by_user'] && $alur['user_id'] == Auth::user()->id || !$alur['by_user'])
+                                                        ) 
+                                                            <input 
+                                                            class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
+                                                        @else 
+                                                            <input 
+                                                            class="form-check-input" type="checkbox" {{$alur_proseses[$index_alur]['is_check'] ? 'checked' : ''}} disabled style="border: 1px solid #D9CFC7">
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <p class="{{$alur_proseses[$index_alur]['status'] != App\Models\AlurPencairan\AlurPencairanStatus::STATUS_DONE ? 'text-danger' : 'text-status-done'}}">{{$alur_proseses[$index_alur]['status_updated_at']}} {{$alur_proseses[$index_alur]['creator_name']}}</p>
+                                                    </td>
+                                                    <td>
+                                                        @if(Auth::user()->roles[0]->name == 
+                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                        [$alur['role_name']]
+                                                        &&  (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                        )
+                                                            <input type="text" class="form-control py-0" wire:model="alur_proseses.{{$index_alur}}.keterangan" placeholder="-- ISI --">
+                                                        @else
+                                                            <p class="py-0">{{$alur_proseses[$index_alur]['keterangan']}}</p>
+                                                        @endIf
+                                                    </td>
+                                                </tr>  
+                                            @endif
+                                        @endswitch
+
+                                    @endforeach
+                                </tbody>
+                            @endif
+                        </table>
                     </div>
-                    <div class="modal-footer d-flex justify-content-center" style="background-color: #327a81;"">
-                        <button type="submit" class="btn btn-primary"> Simpan  </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center" style="background-color: #327a81;"">
+                    <button type="submit" class="btn btn-primary"> Simpan  </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+                
             </div>
         </div>
     </div>
