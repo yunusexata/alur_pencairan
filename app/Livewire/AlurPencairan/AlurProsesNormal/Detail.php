@@ -6,6 +6,7 @@ use App\Helpers\Alert;
 use App\Models\AlurPencairan\AlurPencairan;
 use App\Models\AlurPencairan\AlurProses;
 use App\Repositories\Account\RoleRepository;
+use App\Repositories\Account\UserRepository;
 use App\Repositories\AlurPencairan\AlurProsesDetailRepository;
 use App\Repositories\AlurPencairan\AlurProsesRepository;
 use Exception;
@@ -19,14 +20,14 @@ class Detail extends Component
     public $alur_proseses = [];
     public $alur_proses_removes = [];
     public $roles = [];
-    public $default_role;
+    public $users = [];
 
     public array $oldNomor = [];
 
     public function mount()
     {
         $this->roles = RoleRepository::getIdAndNames()->pluck('name')->toArray();
-        $this->default_role = $this->roles[0];
+        $this->users = UserRepository::all()->pluck('name', 'id')->toArray();
         $this->getAlurProseses();
     }
 
