@@ -670,15 +670,26 @@
                                                 <tr wire:key="alur-proses-{{$index_alur}}">
                                                     {{-- <td>{{$loop->iteration}}</td> --}}
                                                     <td>{{$nomor_urut}}</td>
-                                                    <td>{{$alur['user_name'] ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
+                                                    <td>{{$alur['user_name'] 
+                                                            && (App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                            [$alur['role_name']] != App\Models\AlurPencairan\AlurPencairan::ROLE_CC) ? $alur['user_name']." -" : ""}} {{$alur['role_name']}}</td> 
                                                     <td>{{$alur['name']}}</td>
                                                     <td class="d-flex justify-content-center">
                                                         @if(
-                                                            Auth::user()->roles[0]->name == 
-                                                        App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
-                                                        [$alur['role_name']] 
-                                                        && $alur['user_id'] == Auth::user()->id
-                                                        && ($alur['by_user'] && $alur['user_id'] == Auth::user()->id || !$alur['by_user'])
+                                                                Auth::user()->roles[0]->name == 
+                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                [$alur['role_name']] 
+                                                                && App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                    [$alur['role_name']] == App\Models\AlurPencairan\AlurPencairan::ROLE_CC
+                                                                && (($alur['is_multi'] && $alur['user_id'] == Auth::user()->id) || !$alur['is_multi'])
+                                                                && ($alur['by_user'] && $alur['user_id'] == Auth::user()->id || !$alur['by_user'])
+                                                            || (
+                                                                Auth::user()->roles[0]->name == 
+                                                                App\Models\AlurPencairan\AlurPencairan::ROLE_ALIASE
+                                                                [$alur['role_name']] 
+                                                                && $alur['user_id'] == Auth::user()->id
+                                                                && ($alur['by_user'] && $alur['user_id'] == Auth::user()->id || !$alur['by_user'])
+                                                            )
                                                         ) 
                                                             <input 
                                                             class="form-check-input" type="checkbox" wire:model.live="alur_proseses.{{$index_alur}}.is_check">
